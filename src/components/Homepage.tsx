@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Matchup from "../models/Matchup";
+import { getArt, getMovie } from "../services/ExternalAPIService";
 import { getAllMatchups } from "../services/MatchupService";
 import "./Homepage.css";
 
@@ -14,6 +15,12 @@ const Homepage = () => {
 
   useEffect(() => {
     getAndSetMatchups();
+    getMovie().then((response) => {
+      console.log(response.results[Math.floor(Math.random() * 20)]);
+    });
+    getArt().then((response) => {
+      console.log(response.objectIDs[Math.floor(Math.random() * 10)]);
+    });
   }, []);
 
   return (
