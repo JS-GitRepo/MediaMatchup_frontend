@@ -1,7 +1,7 @@
 export default interface MediaItem {
-  title: string;
+  title: string | undefined;
   subtitle: string;
-  artImg: string;
+  artImg: string | undefined;
   artImg2?: string;
   category: string;
   winner?: boolean;
