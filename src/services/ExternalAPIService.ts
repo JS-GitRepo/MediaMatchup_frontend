@@ -14,7 +14,7 @@ export const getMovie = (): Promise<MediaItem> => {
     include_video: "false",
     language: "en-US",
     "vote_count.gte": "3000",
-    page: (Math.floor(Math.random() * 63) + 1).toString(),
+    page: (Math.floor(Math.random() * 62) + 1).toString(),
   };
   return axios
     .get(`https://api.themoviedb.org/3/discover/movie`, {
@@ -42,7 +42,7 @@ export const getTVShow = (): Promise<MediaItem> => {
     api_key: tmdbKey as string,
     language: "en-US",
     "vote_count.gte": "1000",
-    page: (Math.floor(Math.random() * 15) + 1).toString(),
+    page: (Math.floor(Math.random() * 14) + 1).toString(),
   };
   return axios
     .get(`https://api.themoviedb.org/3/discover/tv`, {
@@ -132,7 +132,7 @@ export const getAlbum = (): Promise<MediaItem> => {
         category: "album",
         nativeId: `${selection.artist.name}: ${selection.name}`,
       };
-      console.log(`Album:`, selectionImg[1]);
+      console.log(`Album:`, selection);
       return album;
     });
 };
