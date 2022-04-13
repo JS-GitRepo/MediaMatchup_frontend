@@ -84,7 +84,7 @@ const Homepage = () => {
     );
     setMatch1(media1);
     setMatch2(media2);
-    console.log(match1, match2);
+    console.log(media1, media2);
   };
 
   useEffect(() => {}, []);
