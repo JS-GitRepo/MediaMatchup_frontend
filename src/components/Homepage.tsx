@@ -12,7 +12,7 @@ import "./Homepage.css";
 
 const Homepage = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
-  const [media1, setMedia1] = useState<MediaItem>({
+  const [match1, setMatch1] = useState<MediaItem>({
     title: "",
     subtitle: "",
     artImg: "",
@@ -20,7 +20,7 @@ const Homepage = () => {
     category: "",
     nativeId: "",
   });
-  const [media2, setMedia2] = useState<MediaItem>({
+  const [match2, setMatch2] = useState<MediaItem>({
     title: "",
     subtitle: "",
     artImg: "",
@@ -82,14 +82,12 @@ const Homepage = () => {
     console.log(
       `The 'generateMatchup' function took ${endTime} ms to complete.`
     );
-    console.log(media1, media2);
-    setMedia1(media1);
-    setMedia2(media2);
+    setMatch1(media1);
+    setMatch2(media2);
+    console.log(match1, match2);
   };
 
-  useEffect(() => {
-    generateMatchup();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="Homepage">
