@@ -5,7 +5,7 @@ interface Comment {
   name: string;
   avatar: string;
   text: string;
-  date: Date;
+  date: number;
 }
 
 // "winner?" represents the title of the winning media item
@@ -14,7 +14,7 @@ export default interface Matchup {
   media1: MediaItem;
   media2: MediaItem;
   uid?: string;
-  date?: Date;
+  date?: number;
   winner?: string;
   upvotes?: number;
   downvotes?: number;

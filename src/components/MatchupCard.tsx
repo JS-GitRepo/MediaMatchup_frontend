@@ -1,11 +1,13 @@
 import Matchup from "../models/Matchup";
+import MediaItem from "../models/MediaItem";
 import "./MatchupCard.css";
 
 interface Props {
   matchup: Matchup | undefined;
+  onSubmitMatchup: (winner: MediaItem) => void;
 }
 
-const MatchupCard = ({ matchup }: Props) => {
+const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
   let backgroundImg1 = matchup?.media1.artImg2
     ? matchup.media1.artImg2
     : matchup?.media1.artImg;
@@ -14,14 +16,20 @@ const MatchupCard = ({ matchup }: Props) => {
     : matchup?.media2.artImg;
   return (
     <div className="MatchupCard">
-      <div className="media1-container">
+      <div
+        className="media1-container"
+        onClick={() => onSubmitMatchup(matchup?.media1!)}
+      >
         <img src={matchup?.media1.artImg} alt={matchup?.media1.title} />
         <p className="media1-title">{matchup?.media1.title}</p>
         <p className="media1-subtitle">{matchup?.media1.subtitle}</p>
         <img src={backgroundImg1} alt={matchup?.media1.title} />
       </div>
       <p className="vs">VS</p>
-      <div className="media2-container">
+      <div
+        className="media2-container"
+        onClick={() => onSubmitMatchup(matchup?.media2!)}
+      >
         <img src={matchup?.media2.artImg} alt={matchup?.media2.title} />
         <p className="media2-title">{matchup?.media2.title}</p>
         <p className="media2-subtitle">{matchup?.media2.subtitle}</p>

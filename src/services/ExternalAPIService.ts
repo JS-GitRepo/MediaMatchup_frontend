@@ -1,7 +1,7 @@
 import axios from "axios";
 import MediaItem from "../models/MediaItem";
 
-const baseURL: string = `${process.env.REACT_APP_API_URL}` || "";
+// const baseURL: string = `${process.env.REACT_APP_API_URL}` || "";
 const tmdbKey: string = `${process.env.REACT_APP_TMDB_KEY}` || "";
 const lastFMKey: string = `${process.env.REACT_APP_LASTFM_KEY}` || "";
 const rawGKey: string = `${process.env.REACT_APP_RAWG_KEY}` || "";
@@ -35,6 +35,7 @@ export const getMovie = (): Promise<MediaItem> => {
         artImg2: `https://image.tmdb.org/t/p/w500/${selection.backdrop_path}`,
         category: "movie",
         nativeId: selection.id,
+        winner: false,
       };
       return movie;
     });
@@ -68,6 +69,7 @@ export const getTVShow = (): Promise<MediaItem> => {
         artImg2: `https://image.tmdb.org/t/p/w500/${selection.backdrop_path}`,
         category: "tvshow",
         nativeId: selection.id,
+        winner: false,
       };
       return show;
     });
@@ -111,6 +113,7 @@ export const getArtpiece = (): Promise<MediaItem> => {
             artImg: selection.primaryImageSmall,
             category: "artpiece",
             nativeId: selection.objectID,
+            winner: false,
           };
           // console.log(`Artpiece:`, selection);
           return artpiece;
@@ -159,6 +162,7 @@ export const getAlbum = (): Promise<MediaItem> => {
         artImg: selectionImg[1] as string,
         category: "album",
         nativeId: `${selection.artist.name}: ${selection.name}`,
+        winner: false,
       };
       // console.log(`Album:`, selection);
       return album;
@@ -201,6 +205,7 @@ export const getVideoGame = (): Promise<MediaItem> => {
             artImg2: selection.background_image_additional,
             category: "videogame",
             nativeId: selection.id,
+            winner: false,
           };
           // console.log(`Video Game:`, response.data);
           return videoGame;

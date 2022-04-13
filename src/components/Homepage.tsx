@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import DailyMatchupCollection from "../models/DailyMatchupCollection";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
+import { getDailyMatchupCollection } from "../services/DailyMatchupService";
 import {
   getAlbum,
   getArtpiece,
@@ -8,28 +10,14 @@ import {
   getTVShow,
   getVideoGame,
 } from "../services/ExternalAPIService";
+import { submitMatchup } from "../services/MatchupService";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 
 const Homepage = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [matchup, setMatchup] = useState<Matchup>();
-  // const [match1, setMatch1] = useState<MediaItem>({
-  //   title: "",
-  //   subtitle: "",
-  //   artImg: "",
-  //   artImg2: "",
-  //   category: "",
-  //   nativeId: "",
-  // });
-  // const [match2, setMatch2] = useState<MediaItem>({
-  //   title: "",
-  //   subtitle: "",
-  //   artImg: "",
-  //   artImg2: "",
-  //   category: "",
-  //   nativeId: "",
-  // });
+
   const getMediaArray = [
     getAlbum,
     getArtpiece,
@@ -42,7 +30,7 @@ const Homepage = () => {
     return await getMediaArray[selection]();
   };
 
-  const generateMatchup = async (): Promise<void> => {
+  const generateMatchup = async (): Promise<any> => {
     const startTime = Date.now();
     let randSelection = Math.floor(Math.random() * 5);
     let randSelection2 = Math.floor(Math.random() * 5);
@@ -50,58 +38,121 @@ const Homepage = () => {
       randSelection2 = Math.floor(Math.random() * 5);
     }
 
-    let media1 = await generateMedia(randSelection);
-    let media2 = await generateMedia(randSelection2);
-    // if (
-    //   media1.title === null ||
-    //   undefined ||
-    //   "" ||
-    //   media1.subtitle === null ||
-    //   undefined ||
-    //   "" ||
-    //   media1.artImg === null ||
-    //   undefined ||
-    //   ""
-    // ) {
-    //   console.log(`Media1 generated again due to missing info.`);
-    //   media1 = await generateMedia(randSelection);
-    // }
-    // if (
-    //   media2.title === null ||
-    //   undefined ||
-    //   "" ||
-    //   media2.subtitle === null ||
-    //   undefined ||
-    //   "" ||
-    //   media2.artImg === null ||
-    //   undefined ||
-    //   ""
-    // ) {
-    //   console.log(`Media2 generated again due to missing info.`);
-    //   media2 = await generateMedia(randSelection2);
-    // }
+    let [media1, media2] = await Promise.all([
+      generateMedia(randSelection),
+      generateMedia(randSelection2),
+    ]);
+
+    if (
+      media1.title === null ||
+      undefined ||
+      "" ||
+      media1.subtitle === null ||
+      undefined ||
+      "" ||
+      media1.artImg === null ||
+      undefined ||
+      ""
+    ) {
+      console.log(`Media1 generated again due to missing info.`);
+      media1 = await generateMedia(randSelection);
+    }
+    if (
+      media2.title === null ||
+      undefined ||
+      "" ||
+      media2.subtitle === null ||
+      undefined ||
+      "" ||
+      media2.artImg === null ||
+      undefined ||
+      ""
+    ) {
+      console.log(`Media2 generated again due to missing info.`);
+      media2 = await generateMedia(randSelection2);
+    }
     const endTime = Date.now() - startTime;
     console.log(
       `The 'generateMatchup' function took ${endTime} ms to complete.`
     );
-    // setMatch1(media1);
-    // setMatch2(media2);
     console.log(media1, media2);
     setMatchup({
       media1,
       media2,
     });
+    return { media1, media2 };
   };
 
-  useEffect(() => {}, []);
+  // TODO
+  const checkDailyTen = (): void => {
+    const currentDate = new Date();
+    const currentDetailedDate = Date.now();
+    const simpleDate = Date.UTC(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    // let dailyResponse: any = [];
+    // getDailyMatchupCollection(simpleDate).then((response) => {
+    //   dailyResponse = response;
+    //   if (dailyResponse === []) {
+    //   }
+    // });
+    const reconstructedDate = new Date(simpleDate);
+    console.log(simpleDate);
+    console.log(currentDetailedDate);
+    console.log(reconstructedDate);
+  };
+
+  // TODO
+  const generateDailyTen = (): void => {
+    let dailyTen: Matchup[] = [];
+    for (let i = 0; i < 10; i++) {
+      generateMatchup().then((response) => {
+        dailyTen.push(response);
+      });
+    }
+    console.log(dailyTen);
+  };
+
+  const submitMatchupHandler = (winner: MediaItem) => {
+    // Establish the winner based on click
+    if (winner === matchup?.media1) {
+      matchup.media1.winner = true;
+      matchup.media2.winner = false;
+      matchup.winner = matchup.media1.title;
+    } else if (winner === matchup?.media2) {
+      matchup.media1.winner = false;
+      matchup.media2.winner = true;
+      matchup.winner = matchup.media2.title;
+    }
+    matchup!.uid = "jake";
+    matchup!.date = Date.now();
+    matchup!.upvotes = 0;
+    matchup!.downvotes = 0;
+    console.log(matchup);
+    submitMatchup(matchup!).then(() => {
+      generateMatchup().then((response) => {
+        setMatchup(response);
+      });
+    });
+  };
+
+  useEffect(() => {
+    generateMatchup().then((response) => {
+      console.log(response);
+      setMatchup(response);
+    });
+  }, []);
 
   return (
     <div className="Homepage">
-      {/* {matchup.map((item) => {
-        return <p>{matchup.uid}</p>;
-      })} */}
-      <MatchupCard matchup={matchup} />
       <button onClick={generateMatchup}>GENERATE MATCHUP</button>
+      <MatchupCard matchup={matchup} onSubmitMatchup={submitMatchupHandler} />
     </div>
   );
 };
