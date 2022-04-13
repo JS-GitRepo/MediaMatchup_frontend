@@ -12,7 +12,7 @@ import "./Homepage.css";
 
 const Homepage = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
-  const [media1, setMedia1] = useState<MediaItem>({
+  const [match1, setMatch1] = useState<MediaItem>({
     title: "",
     subtitle: "",
     artImg: "",
@@ -20,7 +20,7 @@ const Homepage = () => {
     category: "",
     nativeId: "",
   });
-  const [media2, setMedia2] = useState<MediaItem>({
+  const [match2, setMatch2] = useState<MediaItem>({
     title: "",
     subtitle: "",
     artImg: "",
@@ -41,6 +41,7 @@ const Homepage = () => {
   };
 
   const generateMatchup = async (): Promise<void> => {
+    const startTime = Date.now();
     let randSelection = Math.floor(Math.random() * 5);
     let randSelection2 = Math.floor(Math.random() * 5);
     while (randSelection2 === randSelection) {
@@ -60,6 +61,7 @@ const Homepage = () => {
       undefined ||
       ""
     ) {
+      console.log(`Media1 generated again due to missing info.`);
       media1 = await generateMedia(randSelection);
     }
     if (
@@ -73,16 +75,19 @@ const Homepage = () => {
       undefined ||
       ""
     ) {
+      console.log(`Media2 generated again due to missing info.`);
       media2 = await generateMedia(randSelection2);
     }
-    console.log(media1, media2);
-    setMedia1(media1);
-    setMedia2(media2);
+    const endTime = Date.now() - startTime;
+    console.log(
+      `The 'generateMatchup' function took ${endTime} ms to complete.`
+    );
+    setMatch1(media1);
+    setMatch2(media2);
+    console.log(match1, match2);
   };
 
-  useEffect(() => {
-    generateMatchup();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="Homepage">
