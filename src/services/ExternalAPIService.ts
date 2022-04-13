@@ -12,10 +12,7 @@ export const getMovie = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 62) + 1;
   // randResultNum is for an array, so 1-20 actually equals 0-19
   let randResultNum = Math.floor(Math.random() * 20);
-  console.log(
-    `Movie PageNum: ` + randPageNum,
-    `Movie ResultNum: ` + randResultNum
-  );
+  console.log(`Movie PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
   let paramsObj = {
     api_key: tmdbKey as string,
     include_adult: "false",
@@ -49,10 +46,7 @@ export const getTVShow = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 15) + 1;
   // randResultNum is for an array, so 1-20 actually equals 0-19
   let randResultNum = Math.floor(Math.random() * 20);
-  console.log(
-    `TVShow PageNum: ` + randPageNum,
-    `TVShow ResultNum: ` + randResultNum
-  );
+  console.log(`TVShow PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
   let paramsObj = {
     api_key: tmdbKey as string,
     language: "en-US",
@@ -81,19 +75,30 @@ export const getTVShow = (): Promise<MediaItem> => {
 
 // Searches the met for an artpiece with a certain tag; cannot filter as robustly as others, so we need to search notable names and "similar"
 export const getArtpiece = (): Promise<MediaItem> => {
-  console.log(`Artpiece: No Problems Here`);
+  // Random number from 0-20; represents position in ObjectID array from API
+  let randResultNum = Math.floor(Math.random() * 21);
+  let artistArray = [
+    "Vincent van Gogh",
+    "Claude Monet",
+    "Pablo Picasso",
+    "Salvador Dali",
+    "Rembrandt",
+    "Frida Kahlo",
+    "Jackson Pollock",
+    "Andy Warhol",
+  ];
+  console.log(`Artpiece ResultNum:` + randResultNum);
   let paramsObj = {
     q: "",
     hasImages: "true",
-    artistOrCulture: "Vincent",
+    artistOrCulture: "Van Gogh",
   };
   return axios
     .get(`https://collectionapi.metmuseum.org/public/collection/v1/search`, {
       params: paramsObj,
     })
     .then((response) => {
-      let artSelection =
-        response.data.objectIDs[Math.floor(Math.random() * 10) + 1];
+      let artSelection = response.data.objectIDs[randResultNum];
       return axios
         .get(
           `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artSelection}`

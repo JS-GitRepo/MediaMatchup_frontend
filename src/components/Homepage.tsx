@@ -41,6 +41,7 @@ const Homepage = () => {
   };
 
   const generateMatchup = async (): Promise<void> => {
+    const startTime = Date.now();
     let randSelection = Math.floor(Math.random() * 5);
     let randSelection2 = Math.floor(Math.random() * 5);
     while (randSelection2 === randSelection) {
@@ -60,6 +61,7 @@ const Homepage = () => {
       undefined ||
       ""
     ) {
+      console.log(`Media1 generated again due to missing info.`);
       media1 = await generateMedia(randSelection);
     }
     if (
@@ -73,8 +75,13 @@ const Homepage = () => {
       undefined ||
       ""
     ) {
+      console.log(`Media2 generated again due to missing info.`);
       media2 = await generateMedia(randSelection2);
     }
+    const endTime = Date.now() - startTime;
+    console.log(
+      `The 'generateMatchup' function took ${endTime} ms to complete.`
+    );
     console.log(media1, media2);
     setMedia1(media1);
     setMedia2(media2);
