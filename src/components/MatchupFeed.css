@@ -1,4 +1,11 @@
-.Homepage {
+/* RESETS */
+.MatchupFeed ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* SPECIFICS */
+.MatchupFeed {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,8 +13,4 @@
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
-}
-
-.Homepage .sign-in-btn {
-  width: 250px;
 }
