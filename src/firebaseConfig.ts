@@ -2,10 +2,10 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+const firebaseKey: string = `${process.env.REACT_APP_FIREBASE_KEY}` || "";
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC3Ag1NwkhMSHqK4pfvnmjMH85vxPMWXKs",
+  apiKey: firebaseKey as string,
   authDomain: "mediamatchup-ac7a9.firebaseapp.com",
   projectId: "mediamatchup-ac7a9",
   storageBucket: "mediamatchup-ac7a9.appspot.com",
