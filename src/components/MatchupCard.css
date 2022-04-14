@@ -1,0 +1,90 @@
+/* RESETS */
+.MatchupCard img {
+  margin: 0px;
+  padding: 0px;
+}
+
+/* SPECIFICS */
+.MatchupCard {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+}
+
+.MatchupCard p {
+  color: white;
+}
+
+.MatchupCard .vs {
+  font-size: 40px;
+  position: absolute;
+  text-align: center;
+  width: 50px;
+  top: 33%;
+  left: 50%;
+  transform: translate(-50%, 33%);
+  z-index: 1;
+  text-shadow: -2px 2px 0 #000, 2px 2px 0 #000, 2px -2px 0 #000,
+    -2px -2px 0 #000;
+}
+
+.MatchupCard .media1-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex: 1;
+  max-width: 100%;
+}
+
+.MatchupCard .media2-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex: 1;
+  max-width: 100%;
+}
+
+/* TODO: SCALING OFF WINDOW SIZE PERCENTAGE */
+.MatchupCard .main-img {
+  width: 90%;
+  height: 55%;
+  /* background-position: center;
+  background-size: cover; */
+  object-fit: cover;
+}
+
+.MatchupCard .bg-img {
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  min-height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover;
+  filter: hue-rotate(15deg) brightness(50%) contrast(110%) blur(4px);
+}
+
+.MatchupCard .image-subcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  flex: 4;
+  width: 100%;
+}
+
+.MatchupCard .text-subcontainer {
+  flex: 3;
+  width: 100%;
+}

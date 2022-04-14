@@ -151,8 +151,8 @@ const Homepage = () => {
 
   return (
     <div className="Homepage">
-      <button onClick={generateMatchup}>GENERATE MATCHUP</button>
       <MatchupCard matchup={matchup} onSubmitMatchup={submitMatchupHandler} />
+      <button onClick={generateMatchup}>GENERATE NEW MATCHUP</button>
     </div>
   );
 };

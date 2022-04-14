@@ -33,7 +33,7 @@ export const getMovie = (): Promise<MediaItem> => {
         subtitle: selection.release_date,
         artImg: `https://image.tmdb.org/t/p/w500/${selection.poster_path}`,
         artImg2: `https://image.tmdb.org/t/p/w500/${selection.backdrop_path}`,
-        category: "movie",
+        category: "Film",
         nativeId: selection.id,
         winner: false,
       };
@@ -67,7 +67,7 @@ export const getTVShow = (): Promise<MediaItem> => {
         subtitle: selection.first_air_date,
         artImg: `https://image.tmdb.org/t/p/w500/${selection.poster_path}`,
         artImg2: `https://image.tmdb.org/t/p/w500/${selection.backdrop_path}`,
-        category: "tvshow",
+        category: "Television",
         nativeId: selection.id,
         winner: false,
       };
@@ -78,7 +78,7 @@ export const getTVShow = (): Promise<MediaItem> => {
 // Searches the met for an artpiece with a certain tag; cannot filter as robustly as others, so we need to search notable names and "similar"
 export const getArtpiece = (): Promise<MediaItem> => {
   // Random number from 0-20; represents position in ObjectID array from API
-  let randResultNum = Math.floor(Math.random() * 21);
+  let randResultNum = Math.floor(Math.random() * 10);
   let artistArray = [
     "Vincent van Gogh",
     "Claude Monet",
@@ -89,7 +89,11 @@ export const getArtpiece = (): Promise<MediaItem> => {
     "Jackson Pollock",
     "Andy Warhol",
   ];
-  console.log(`Artpiece ResultNum:` + randResultNum);
+  let randArtistNum = Math.floor(Math.random() * artistArray.length);
+  console.log(
+    `Artpiece ArtistNum:` + randArtistNum,
+    `ResultNum:` + randResultNum
+  );
   let paramsObj = {
     q: "",
     hasImages: "true",
@@ -111,7 +115,7 @@ export const getArtpiece = (): Promise<MediaItem> => {
             title: selection.title,
             subtitle: selection.artistDisplayName,
             artImg: selection.primaryImageSmall,
-            category: "artpiece",
+            category: "Artwork",
             nativeId: selection.objectID,
             winner: false,
           };
@@ -133,6 +137,7 @@ export const getAlbum = (): Promise<MediaItem> => {
     "classic rock",
     "punk",
     "rap",
+    "pop",
   ];
   // randTagNum looks at array length 9, rounds down to max of 8, making 0-8
   let randTagNum = Math.floor(Math.random() * tagArray.length);
@@ -160,7 +165,7 @@ export const getAlbum = (): Promise<MediaItem> => {
         title: selection.name,
         subtitle: selection.artist.name,
         artImg: selectionImg[1] as string,
-        category: "album",
+        category: "Album",
         nativeId: `${selection.artist.name}: ${selection.name}`,
         winner: false,
       };
@@ -203,7 +208,7 @@ export const getVideoGame = (): Promise<MediaItem> => {
             subtitle: selection.released,
             artImg: selection.background_image,
             artImg2: selection.background_image_additional,
-            category: "videogame",
+            category: "Video Game",
             nativeId: selection.id,
             winner: false,
           };
