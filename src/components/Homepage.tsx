@@ -5,7 +5,10 @@ import { signInWithGoogle, signOut } from "../firebaseConfig";
 import DailyMatchupCollection from "../models/DailyMatchupCollection";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
-import { getDailyMatchupCollection } from "../services/DailyMatchupService";
+import {
+  getDailyMatchupCollection,
+  postDailyMatchupCollection,
+} from "../services/DailyMatchupService";
 import {
   getAlbum,
   getArtpiece,
@@ -19,8 +22,9 @@ import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 
 const Homepage = () => {
-  const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [matchup, setMatchup] = useState<Matchup>();
+  const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>();
+
   const { user } = useContext(SocialContext);
 
   const getMediaArray = [
@@ -80,7 +84,7 @@ const Homepage = () => {
     console.log(
       `The 'generateMatchup' function took ${endTime} ms to complete.`
     );
-    console.log(media1, media2);
+    // console.log(media1, media2);
     setMatchup({
       media1,
       media2,
@@ -88,41 +92,64 @@ const Homepage = () => {
     return { media1, media2 };
   };
 
-  // TODO
-  const checkDailyTen = (): void => {
-    const currentDate = new Date();
-    const currentDetailedDate = Date.now();
-    const simpleDate = Date.UTC(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate(),
-      0,
-      0,
-      0,
-      0
-    );
-    // let dailyResponse: any = [];
-    // getDailyMatchupCollection(simpleDate).then((response) => {
-    //   dailyResponse = response;
-    //   if (dailyResponse === []) {
-    //   }
-    // });
-    const reconstructedDate = new Date(simpleDate);
-    console.log(simpleDate);
-    console.log(currentDetailedDate);
-    console.log(reconstructedDate);
-  };
-
-  // TODO
-  const generateDailyTen = (): void => {
+  const generateDailyTen = async (): Promise<Matchup[]> => {
     let dailyTen: Matchup[] = [];
     for (let i = 0; i < 10; i++) {
       generateMatchup().then((response) => {
+        console.log("test", response);
         dailyTen.push(response);
       });
     }
-    console.log(dailyTen);
+    return dailyTen;
   };
+  const currentDate = new Date();
+  const detailedDate = Date.now();
+  const simpleDate = Date.UTC(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate(),
+    0,
+    0,
+    0,
+    0
+  );
+  // TODO
+  // const checkDailyTen = (): void => {
+  //   const currentDate = new Date();
+  //   const currentDetailedDate = Date.now();
+  //   const simpleDate = Date.UTC(
+  //     currentDate.getFullYear(),
+  //     currentDate.getMonth(),
+  //     currentDate.getDate(),
+  //     0,
+  //     0,
+  //     0,
+  //     0
+  //   );
+
+  //   let dailyResponse: DailyMatchupCollection = getDailyMatchupCollection(simpleDate).then((response) => {
+  //     if (response === {}) {
+  //       let matchupArray = [];
+  //       return generateDailyTen().then((response) => {
+  //         matchupArray = response;
+  //         const dailyCollection: DailyMatchupCollection = {
+  //           detailedDate: currentDetailedDate,
+  //           simpleDate: simpleDate,
+  //           matchups: matchupArray
+  //         }
+  //         return dailyCollection;
+  //       })
+  //     } else {
+  //       return response;
+  //     }
+  //   });
+  //   const reconstructedDate = new Date(simpleDate);
+  //   console.log(simpleDate);
+  //   console.log(currentDetailedDate);
+  //   console.log(reconstructedDate);
+  // };
+
+  // TODO
 
   const submitMatchupHandler = (winner: MediaItem) => {
     // Establish the winner based on click
@@ -146,6 +173,25 @@ const Homepage = () => {
       });
     });
   };
+
+  useEffect(() => {
+    getDailyMatchupCollection(simpleDate).then((response) => {
+      console.log(response);
+      if (response) {
+        setDailyMatchups(response.matchups);
+      } else {
+        generateDailyTen().then((response) => {
+          console.log(response);
+          // setDailyMatchups(response);
+          postDailyMatchupCollection({
+            simpleDate,
+            detailedDate,
+            matchups: response,
+          });
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     generateMatchup().then((response) => {

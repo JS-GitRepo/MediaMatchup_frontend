@@ -1,10 +1,16 @@
 import axios from "axios";
 import DailyMatchupCollection from "../models/DailyMatchupCollection";
 
-const baseURL: string = process.env.REACT_APP_API_URL || "";
+const baseURL: string = `${process.env.REACT_APP_API_URL}/dailymatchups` || "";
 
 export const getDailyMatchupCollection = async (
-  date: number
+  simpleDate: number
 ): Promise<DailyMatchupCollection> => {
-  return (await axios.get(baseURL, { params: { date: date } })).data;
+  return (await axios.get(baseURL, { params: { date: simpleDate } })).data;
+};
+
+export const postDailyMatchupCollection = async (
+  dailyMatchupCollection: DailyMatchupCollection
+): Promise<void> => {
+  return await axios.post(baseURL, dailyMatchupCollection);
 };
