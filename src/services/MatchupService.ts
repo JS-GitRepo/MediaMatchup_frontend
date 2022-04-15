@@ -3,8 +3,8 @@ import Matchup from "../models/Matchup";
 
 const baseURL: string = `${process.env.REACT_APP_API_URL}/matchups` || "";
 
-export const getAllMatchups = async (): Promise<Matchup[]> => {
-  return (await axios.get(baseURL)).data;
+export const getMatchupsByUID = async (uid: string): Promise<Matchup[]> => {
+  return (await axios.get(baseURL, { params: { uid: uid } })).data;
 };
 
 export const submitMatchup = async (matchup: Matchup): Promise<Matchup> => {

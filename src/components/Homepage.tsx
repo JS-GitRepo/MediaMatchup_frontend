@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import SocialContext from "../context/SocialContext";
+import { signInWithGoogle, signOut } from "../firebaseConfig";
 import DailyMatchupCollection from "../models/DailyMatchupCollection";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
@@ -11,12 +14,14 @@ import {
   getVideoGame,
 } from "../services/ExternalAPIService";
 import { submitMatchup } from "../services/MatchupService";
+import Footer from "./Footer";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 
 const Homepage = () => {
   const [matchups, setMatchups] = useState<Matchup[]>([]);
   const [matchup, setMatchup] = useState<Matchup>();
+  const { user } = useContext(SocialContext);
 
   const getMediaArray = [
     getAlbum,
@@ -130,7 +135,7 @@ const Homepage = () => {
       matchup.media2.winner = true;
       matchup.winner = matchup.media2.title;
     }
-    matchup!.uid = "jake";
+    matchup!.uid = user?.uid;
     matchup!.date = Date.now();
     matchup!.upvotes = 0;
     matchup!.downvotes = 0;
@@ -151,8 +156,18 @@ const Homepage = () => {
 
   return (
     <div className="Homepage">
-      <MatchupCard matchup={matchup} onSubmitMatchup={submitMatchupHandler} />
-      <button onClick={generateMatchup}>GENERATE NEW MATCHUP</button>
+      {user ? (
+        <div>
+          <MatchupCard
+            matchup={matchup}
+            onSubmitMatchup={submitMatchupHandler}
+          />
+          <button onClick={generateMatchup}>GENERATE NEW MATCHUP</button>
+        </div>
+      ) : (
+        <div></div>
+      )}
+      <Footer />
     </div>
   );
 };
