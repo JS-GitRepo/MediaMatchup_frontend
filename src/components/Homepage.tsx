@@ -22,11 +22,13 @@ import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 
 const Homepage = () => {
-  const [matchup, setMatchup] = useState<Matchup>();
   const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>();
+  const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
+  const [currentMatchupIndex, setCurrentMatchupIndex] = useState<number>(0);
+  const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
+  const [matchup, setMatchup] = useState<Matchup>();
 
   const { user } = useContext(SocialContext);
-
   const getMediaArray = [
     getAlbum,
     getArtpiece,
@@ -35,11 +37,26 @@ const Homepage = () => {
     getVideoGame,
   ];
 
-  const generateMedia = async (selection: number): Promise<MediaItem> => {
-    return await getMediaArray[selection]();
+  const generateDateInfo = () => {
+    const currentDate: Date = new Date();
+    const detailedDate: number = Date.now();
+    const simpleDate: number = Date.UTC(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+    return { currentDate, detailedDate, simpleDate };
   };
 
-  const generateMatchup = async (): Promise<any> => {
+  const generateMedia = async (selection: number): Promise<MediaItem> => {
+    return getMediaArray[selection]();
+  };
+
+  const generateMatchup = async (): Promise<Matchup> => {
     const startTime = Date.now();
     let randSelection = Math.floor(Math.random() * 5);
     let randSelection2 = Math.floor(Math.random() * 5);
@@ -85,74 +102,78 @@ const Homepage = () => {
       `The 'generateMatchup' function took ${endTime} ms to complete.`
     );
     // console.log(media1, media2);
-    setMatchup({
-      media1,
-      media2,
-    });
+    // setMatchup({
+    //   media1,
+    //   media2,
+    // });
     return { media1, media2 };
   };
 
-  const generateDailyTen = async (): Promise<Matchup[]> => {
-    let dailyTen: Matchup[] = [];
-    for (let i = 0; i < 10; i++) {
-      generateMatchup().then((response) => {
-        console.log("test", response);
-        dailyTen.push(response);
-      });
+  const generateMultipleMatchups = async (
+    quantity: number
+  ): Promise<Matchup[]> => {
+    let matchupArray: Matchup[] = [];
+    for (let i = 0; i < quantity; i++) {
+      const matchup = await generateMatchup();
+      matchupArray.push(matchup);
     }
-    return dailyTen;
+    return matchupArray;
   };
-  const currentDate = new Date();
-  const detailedDate = Date.now();
-  const simpleDate = Date.UTC(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getDate(),
-    0,
-    0,
-    0,
-    0
-  );
-  // TODO
-  // const checkDailyTen = (): void => {
-  //   const currentDate = new Date();
-  //   const currentDetailedDate = Date.now();
-  //   const simpleDate = Date.UTC(
-  //     currentDate.getFullYear(),
-  //     currentDate.getMonth(),
-  //     currentDate.getDate(),
-  //     0,
-  //     0,
-  //     0,
-  //     0
-  //   );
 
-  //   let dailyResponse: DailyMatchupCollection = getDailyMatchupCollection(simpleDate).then((response) => {
-  //     if (response === {}) {
-  //       let matchupArray = [];
-  //       return generateDailyTen().then((response) => {
-  //         matchupArray = response;
-  //         const dailyCollection: DailyMatchupCollection = {
-  //           detailedDate: currentDetailedDate,
-  //           simpleDate: simpleDate,
-  //           matchups: matchupArray
-  //         }
-  //         return dailyCollection;
-  //       })
-  //     } else {
-  //       return response;
-  //     }
-  //   });
-  //   const reconstructedDate = new Date(simpleDate);
-  //   console.log(simpleDate);
-  //   console.log(currentDetailedDate);
-  //   console.log(reconstructedDate);
-  // };
+  const checkAndSetDailyTen = (): void => {
+    const dateInfo = generateDateInfo();
+    const detailedDate = dateInfo.detailedDate;
+    const simpleDate = dateInfo.simpleDate;
 
-  // TODO
+    getDailyMatchupCollection(simpleDate).then((response) => {
+      if (response) {
+        setDailyMatchups(response.matchups);
+      } else {
+        generateMultipleMatchups(10).then((response) => {
+          let tempDailyMatchups = response.map((item, i) => ({
+            ...item,
+            dailyMatchupsIndex: i,
+            dailyMatchupsDate: simpleDate,
+          }));
+          let dailyMatchupCollection: any = {
+            detailedDate: detailedDate,
+            simpleDate: simpleDate,
+            matchups: tempDailyMatchups,
+          };
+          postDailyMatchupCollection(dailyMatchupCollection);
+          setDailyMatchups(tempDailyMatchups);
+        });
+      }
+    });
+  };
 
-  const submitMatchupHandler = (winner: MediaItem) => {
-    // Establish the winner based on click
+  const checkAndSetBufferedMatchups = async (): Promise<void> => {
+    let tempBuffer = bufferedMatchups;
+    let bufferLength = tempBuffer.length;
+    console.log(
+      `There are ${bufferLength} items in the buffer when generation started.`
+    );
+    if (bufferLength < 3) {
+      let initialMatchup = await generateMatchup();
+      setMatchup(initialMatchup);
+      tempBuffer.push(initialMatchup);
+      for (bufferLength + 1; bufferLength < 3; bufferLength++) {
+        tempBuffer.push(await generateMatchup());
+      }
+    } else {
+      tempBuffer.shift();
+      setMatchup(bufferedMatchups[0]);
+      let tempMatchup = await generateMatchup();
+      tempBuffer.push(tempMatchup);
+    }
+    setBufferedMatchups(tempBuffer);
+  };
+
+  const submitUserMatchupHandler = (
+    winner: MediaItem,
+    dailyMatchupIndex?: number
+  ) => {
+    // Establishes the winner based on which div is clicked (passed up via props)
     if (winner === matchup?.media1) {
       matchup.media1.winner = true;
       matchup.media2.winner = false;
@@ -162,43 +183,33 @@ const Homepage = () => {
       matchup.media2.winner = true;
       matchup.winner = matchup.media2.title;
     }
+    if (dailyMatchupIndex === 9) {
+      setDailyIsComplete(true);
+    }
     matchup!.uid = user?.uid;
     matchup!.date = Date.now();
     matchup!.upvotes = 0;
     matchup!.downvotes = 0;
-    console.log(matchup);
-    submitMatchup(matchup!).then(() => {
-      generateMatchup().then((response) => {
-        setMatchup(response);
-      });
-    });
+
+    submitMatchup(matchup!);
+    checkAndSetBufferedMatchups();
   };
 
+  // This use effect gets the date; sets a detailed and simplified version, then checks to see if a daily 10 has been submitted for the day. If not, it creates one, and sets it for the user. If it has been, it retrieves and sets it for the user.
   useEffect(() => {
-    getDailyMatchupCollection(simpleDate).then((response) => {
-      console.log(response);
-      if (response) {
-        setDailyMatchups(response.matchups);
-      } else {
-        generateDailyTen().then((response) => {
-          console.log(response);
-          // setDailyMatchups(response);
-          postDailyMatchupCollection({
-            simpleDate,
-            detailedDate,
-            matchups: response,
-          });
-        });
-      }
-    });
+    checkAndSetDailyTen();
+    checkAndSetBufferedMatchups();
   }, []);
 
+  //  Logs bufferedMatchups whenever the current matchup changes (to make sure the buffer is updating)
   useEffect(() => {
-    generateMatchup().then((response) => {
-      console.log(response);
-      setMatchup(response);
-    });
-  }, []);
+    console.log("Current Buffered Matchups: ", bufferedMatchups);
+  }, [matchup]);
+
+  // When dailyMatchups changes, this runs.
+  useEffect(() => {
+    console.log("Today's Daily Matchups: ", dailyMatchups);
+  }, [dailyMatchups]);
 
   return (
     <div className="Homepage">
@@ -206,9 +217,11 @@ const Homepage = () => {
         <div>
           <MatchupCard
             matchup={matchup}
-            onSubmitMatchup={submitMatchupHandler}
+            onSubmitMatchup={submitUserMatchupHandler}
           />
-          <button onClick={generateMatchup}>GENERATE NEW MATCHUP</button>
+          <button onClick={checkAndSetBufferedMatchups}>
+            GENERATE NEW MATCHUP
+          </button>
         </div>
       ) : (
         <div></div>

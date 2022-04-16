@@ -4,7 +4,7 @@ import "./MatchupCard.css";
 
 interface Props {
   matchup: Matchup | undefined;
-  onSubmitMatchup: (winner: MediaItem) => void;
+  onSubmitMatchup: (winner: MediaItem, dailyMatchupIndex?: number) => void;
 }
 
 const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
@@ -35,7 +35,9 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
     <div className="MatchupCard">
       <div
         className="media1-container"
-        onClick={() => onSubmitMatchup(matchup?.media1!)}
+        onClick={() =>
+          onSubmitMatchup(matchup?.media1!, matchup?.dailyMatchupsDate)
+        }
       >
         <div className="image-subcontainer">
           <img
@@ -58,7 +60,9 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
       <p className="vs">VS</p>
       <div
         className="media2-container"
-        onClick={() => onSubmitMatchup(matchup?.media2!)}
+        onClick={() =>
+          onSubmitMatchup(matchup?.media2!, matchup?.dailyMatchupsDate)
+        }
       >
         <div className="image-subcontainer">
           <img
