@@ -157,8 +157,10 @@ const Homepage = () => {
       let initialMatchup = await generateMatchup();
       setMatchup(initialMatchup);
       tempBuffer.push(initialMatchup);
-      for (bufferLength + 1; bufferLength < 3; bufferLength++) {
-        tempBuffer.push(await generateMatchup());
+      bufferLength = tempBuffer.length;
+      for (bufferLength; bufferLength < 3; bufferLength++) {
+        let newMatchup = await generateMatchup();
+        tempBuffer.push(newMatchup);
       }
     } else {
       tempBuffer.shift();
