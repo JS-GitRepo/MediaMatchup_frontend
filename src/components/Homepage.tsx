@@ -25,7 +25,7 @@ import StatsCard from "./StatsCard";
 const Homepage = () => {
   const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>([]);
   const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
-  const [currentMatchupIndex, setCurrentMatchupIndex] = useState<number>(0);
+  // const [currentMatchupIndex, setCurrentMatchupIndex] = useState<number>(0);
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
   const [cardType, setCardType] = useState<JSX.Element>();
   const [matchup, setMatchup] = useState<Matchup>();
