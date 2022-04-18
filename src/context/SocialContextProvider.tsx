@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useState } from "react";
 import { User } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import SocialContext from "./SocialContext";
+import { createUserByID, getUserById } from "../services/UserService";
+import UserAccount from "../models/UserAccount";
 
 interface Props {
   children: ReactNode;
@@ -15,6 +17,21 @@ const SocialContextProvider = ({ children }: Props) => {
       setUser(newUser);
     });
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getUserById(user.uid).then((response) => {
+        if (!response) {
+          let newUser: UserAccount = {
+            uid: user.uid,
+            name: user.displayName!,
+            email: user.email!,
+          };
+          createUserByID(newUser!);
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <SocialContext.Provider value={{ user }}>{children}</SocialContext.Provider>
