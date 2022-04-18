@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
 import { signInWithGoogle, signOut } from "../firebaseConfig";
@@ -20,14 +20,15 @@ import { submitMatchup } from "../services/MatchupService";
 import Footer from "./Footer";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
+import StatsCard from "./StatsCard";
 
 const Homepage = () => {
-  const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>();
+  const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>([]);
   const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
   const [currentMatchupIndex, setCurrentMatchupIndex] = useState<number>(0);
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
+  const [cardType, setCardType] = useState<JSX.Element>();
   const [matchup, setMatchup] = useState<Matchup>();
-
   const { user } = useContext(SocialContext);
   const getMediaArray = [
     getAlbum,
@@ -120,31 +121,29 @@ const Homepage = () => {
     return matchupArray;
   };
 
-  const checkAndSetDailyTen = (): void => {
+  const checkAndSetDailyMatchups = async (): Promise<void> => {
     const dateInfo = generateDateInfo();
     const detailedDate = dateInfo.detailedDate;
     const simpleDate = dateInfo.simpleDate;
 
-    getDailyMatchupCollection(simpleDate).then((response) => {
-      if (response) {
-        setDailyMatchups(response.matchups);
-      } else {
-        generateMultipleMatchups(10).then((response) => {
-          let tempDailyMatchups = response.map((item, i) => ({
-            ...item,
-            dailyMatchupsIndex: i,
-            dailyMatchupsDate: simpleDate,
-          }));
-          let dailyMatchupCollection: any = {
-            detailedDate: detailedDate,
-            simpleDate: simpleDate,
-            matchups: tempDailyMatchups,
-          };
-          postDailyMatchupCollection(dailyMatchupCollection);
-          setDailyMatchups(tempDailyMatchups);
-        });
-      }
-    });
+    let todaysCollection = await getDailyMatchupCollection(simpleDate);
+    if (todaysCollection) {
+      setDailyMatchups(todaysCollection.matchups);
+    } else {
+      let tempCollection = await generateMultipleMatchups(10);
+      tempCollection = tempCollection.map((item, i) => ({
+        ...item,
+        dailyMatchupsIndex: i,
+        dailyMatchupsDate: simpleDate,
+      }));
+      let dailyMatchupCollection: any = {
+        detailedDate: detailedDate,
+        simpleDate: simpleDate,
+        matchups: tempCollection,
+      };
+      postDailyMatchupCollection(dailyMatchupCollection);
+      setDailyMatchups(tempCollection);
+    }
   };
 
   const checkAndSetBufferedMatchups = async (): Promise<void> => {
@@ -171,6 +170,28 @@ const Homepage = () => {
     setBufferedMatchups(tempBuffer);
   };
 
+  const checkAndCycleDailyMatchup = async () => {
+    if (matchup) {
+      dailyMatchups?.shift();
+      setMatchup(dailyMatchups![0]);
+    } else {
+      setMatchup(dailyMatchups![0]);
+    }
+  };
+
+  const checkAndSetMatchup = async () => {
+    let tempDailyIsComplete = dailyIsComplete;
+    if (dailyMatchups[0].dailyMatchupsIndex === 9) {
+      tempDailyIsComplete = true;
+      setDailyIsComplete(true);
+    }
+    if (tempDailyIsComplete) {
+      await checkAndSetBufferedMatchups();
+    } else {
+      await checkAndCycleDailyMatchup();
+    }
+  };
+
   const submitUserMatchupHandler = (
     winner: MediaItem,
     dailyMatchupIndex?: number
@@ -194,36 +215,45 @@ const Homepage = () => {
     matchup!.downvotes = 0;
 
     submitMatchup(matchup!);
-    checkAndSetBufferedMatchups();
+    checkAndSetMatchup();
   };
 
+  const matchupCardJSX = (
+    <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />
+  );
+
+  const statsCardJSX = <StatsCard />;
+
+  let isInitialRender = useRef(true);
   // This use effect gets the date; sets a detailed and simplified version, then checks to see if a daily 10 has been submitted for the day. If not, it creates one, and sets it for the user. If it has been, it retrieves and sets it for the user.
   useEffect(() => {
-    checkAndSetDailyTen();
-    checkAndSetBufferedMatchups();
+    checkAndSetDailyMatchups();
+    setCardType(matchupCardJSX);
   }, []);
 
   //  Logs bufferedMatchups whenever the current matchup changes (to make sure the buffer is updating)
   useEffect(() => {
-    console.log("Current Buffered Matchups: ", bufferedMatchups);
+    if (isInitialRender.current === false) {
+      console.log("Current Buffered Matchups: ", bufferedMatchups);
+    }
   }, [matchup]);
 
   // When dailyMatchups changes, this runs.
   useEffect(() => {
-    console.log("Today's Daily Matchups: ", dailyMatchups);
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+    } else {
+      console.log("Today's Daily Matchups: ", dailyMatchups);
+      checkAndSetMatchup();
+    }
   }, [dailyMatchups]);
 
   return (
     <div className="Homepage">
       {user ? (
         <div>
-          <MatchupCard
-            matchup={matchup}
-            onSubmitMatchup={submitUserMatchupHandler}
-          />
-          <button onClick={checkAndSetBufferedMatchups}>
-            GENERATE NEW MATCHUP
-          </button>
+          {matchupCardJSX}
+          <button onClick={checkAndSetMatchup}>GENERATE NEW MATCHUP</button>
         </div>
       ) : (
         <div></div>

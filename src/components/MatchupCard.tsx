@@ -36,7 +36,7 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
       <div
         className="media1-container"
         onClick={() =>
-          onSubmitMatchup(matchup?.media1!, matchup?.dailyMatchupsDate)
+          onSubmitMatchup(matchup?.media1!, matchup?.dailyMatchupsIndex)
         }
       >
         <div className="image-subcontainer">
@@ -61,7 +61,7 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
       <div
         className="media2-container"
         onClick={() =>
-          onSubmitMatchup(matchup?.media2!, matchup?.dailyMatchupsDate)
+          onSubmitMatchup(matchup?.media2!, matchup?.dailyMatchupsIndex)
         }
       >
         <div className="image-subcontainer">
