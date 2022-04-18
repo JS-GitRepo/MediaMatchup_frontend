@@ -19,4 +19,6 @@ export default interface Matchup {
   upvotes?: number;
   downvotes?: number;
   comments?: Comment[];
+  dailyMatchupsDate?: number;
+  dailyMatchupsIndex?: number;
 }

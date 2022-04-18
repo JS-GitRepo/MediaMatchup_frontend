@@ -10,7 +10,7 @@ export const getDailyMatchupCollection = async (
 };
 
 export const postDailyMatchupCollection = async (
-  dailyMatchupCollection: DailyMatchupCollection
-): Promise<void> => {
-  return await axios.post(baseURL, dailyMatchupCollection);
+  dailyCollection: DailyMatchupCollection
+): Promise<DailyMatchupCollection> => {
+  return (await axios.post(baseURL, dailyCollection)).data;
 };
