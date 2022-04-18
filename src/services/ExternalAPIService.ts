@@ -125,52 +125,46 @@ export const getArtpiece = (): Promise<MediaItem> => {
     });
 };
 
-// Searches Last FM for a list of most popular albums containing a random tag from the array, then picks a random result from the first page of 50 results
 export const getAlbum = (): Promise<MediaItem> => {
-  let tagArray: string[] = [
-    "Hip-Hop",
-    "hip hop",
-    "rock",
-    "electronic",
-    "alternative",
-    "metal",
-    "classic rock",
-    "punk",
-    "rap",
-    "pop",
-  ];
-  // randTagNum looks at array length 9, rounds down to max of 8, making 0-8
-  let randTagNum = Math.floor(Math.random() * tagArray.length);
-  // randResultNum is for an array, so 1-50 actually equals 0-49
+  let randPageNum = Math.floor(Math.random() * 10);
   let randResultNum = Math.floor(Math.random() * 50);
-  console.log(
-    `Album TagNum: ` + randTagNum,
-    `Album ResultNum: ` + randResultNum
-  );
   let paramsObj = {
     api_key: lastFMKey as string,
-    method: "tag.gettopalbums",
+    method: "chart.gettopartists",
     format: "json",
-    tag: tagArray[randTagNum],
-    page: "1",
+    page: randPageNum.toString(),
   };
   return axios
     .get(`http://ws.audioscrobbler.com/2.0/`, {
       params: paramsObj,
     })
     .then((response) => {
-      let selection: any = response.data.albums.album[randResultNum];
-      let selectionImg = Object.entries(selection.image[3])[0];
-      const album: MediaItem = {
-        title: selection.name,
-        subtitle: selection.artist.name,
-        artImg: selectionImg[1] as string,
-        category: "Album",
-        nativeId: `${selection.artist.name}: ${selection.name}`,
-        winner: false,
+      let artistID = response.data.artists.artist[randResultNum].name;
+      let paramsObj2 = {
+        api_key: lastFMKey as string,
+        method: "artist.gettopalbums",
+        format: "json",
+        artist: artistID,
       };
-      // console.log(`Album:`, selection);
-      return album;
+      let randResultNum2 = Math.floor(Math.random() * 2);
+      return axios
+        .get(`http://ws.audioscrobbler.com/2.0/`, {
+          params: paramsObj2,
+        })
+        .then((response) => {
+          let selection: any = response.data.topalbums.album[randResultNum2];
+          let selectionImg = Object.entries(selection.image[3])[0];
+          const album: MediaItem = {
+            title: selection.name,
+            subtitle: selection.artist.name,
+            artImg: selectionImg[1] as string,
+            category: "Album",
+            nativeId: `${selection.artist.name}: ${selection.name}`,
+            winner: false,
+          };
+          // console.log(`Album:`, selection);
+          return album;
+        });
     });
 };
 
