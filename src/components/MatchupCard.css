@@ -17,6 +17,21 @@
   color: white;
 }
 
+.MatchupCard .daily-header {
+  display: flex;
+  top: 10%;
+  width: 100vw;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+}
+
+.MatchupCard .daily-header p {
+  padding: 10px 20px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 30px;
+}
+
 .MatchupCard .vs {
   font-size: 40px;
   position: absolute;

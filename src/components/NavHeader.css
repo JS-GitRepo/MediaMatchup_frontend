@@ -1,0 +1,6 @@
+.NavHeader {
+  flex: 1;
+  width: 100vw;
+  background-color: white;
+  z-index: 2;
+}

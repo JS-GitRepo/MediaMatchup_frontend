@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
@@ -15,7 +16,6 @@ import {
 } from "../services/ExternalAPIService";
 import { submitMatchup } from "../services/MatchupService";
 import { getUserById, updateUserDailiesByID } from "../services/UserService";
-import Footer from "./Footer";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 import StatsCard from "./StatsCard";
@@ -24,8 +24,8 @@ const Homepage = () => {
   const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>([]);
   const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
-  const [matchup, setMatchup] = useState<Matchup>();
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
+  const [matchup, setMatchup] = useState<Matchup>();
 
   const { user } = useContext(SocialContext);
   const getMediaArray = [
@@ -239,7 +239,9 @@ const Homepage = () => {
     checkAndSetMatchups();
   };
 
-  const matchupCardJSX = <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />;
+  const matchupCardJSX = (
+    <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />
+  );
   const statsCardJSX = <StatsCard />;
   const [cardType, setCardType] = useState<JSX.Element>(matchupCardJSX);
 
@@ -249,7 +251,7 @@ const Homepage = () => {
   }, []);
 
   useEffect(() => {
-    if (!isInitialRender) {
+    if (user) {
       checkAndSetDailyMatchups();
     }
   }, [user]);
@@ -271,7 +273,9 @@ const Homepage = () => {
       ) : (
         <div></div>
       )}
-      <Footer />
+      <Link to="/nav/myfeed">
+        <button>Navigate</button>
+      </Link>
     </div>
   );
 };
