@@ -128,6 +128,10 @@ export const getArtpiece = (): Promise<MediaItem> => {
 export const getAlbum = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 10);
   let randResultNum = Math.floor(Math.random() * 50);
+  console.log(
+    `getAlbum PageNum: ` + randPageNum,
+    `ResultNum: ` + randResultNum
+  );
   let paramsObj = {
     api_key: lastFMKey as string,
     method: "chart.gettopartists",
