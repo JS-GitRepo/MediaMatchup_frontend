@@ -11,8 +11,8 @@ const Footer = () => {
     <div className="Footer">
       {user ? (
         <div>
-          <Link to="/myfeed">
-            <button>My Feed</button>
+          <Link to="/nav">
+            <button>Navigate</button>
           </Link>
           <p>{user.email}</p>
           <button onClick={signOut}>SignOut</button>
