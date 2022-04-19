@@ -88,40 +88,50 @@ export const getArtpiece = (): Promise<MediaItem> => {
     "Frida Kahlo",
     "Jackson Pollock",
     "Andy Warhol",
+    "Rothko",
+    "Hokusai",
+    "Leonardo Da Vinci",
+    "Michelangelo",
+    "Henri Matisse",
+    "Georgia O'Keeffe",
+    "Hieronymus Bosch",
+    "Norman Rockwell",
+    "Ivan Albright",
+    "Hiroshi Yoshida",
+    "yayoi kusama",
+    "Kawanabe Kyosai",
   ];
-  let randArtistNum = Math.floor(Math.random() * artistArray.length);
+  let randArtistNum = Math.floor(Math.random() * artistArray.length) + 1;
   console.log(
     `Artpiece ArtistNum:` + randArtistNum,
     `ResultNum:` + randResultNum
   );
   let paramsObj = {
-    q: "",
-    hasImages: "true",
-    artistOrCulture: "Van Gogh",
+    q: artistArray[randArtistNum],
+    fields: "id, title, image_id, artist_title, date_end",
+    page: 1,
+    limit: 10,
   };
+
   return axios
-    .get(`https://collectionapi.metmuseum.org/public/collection/v1/search`, {
+    .get(`https://api.artic.edu/api/v1/artworks/search`, {
       params: paramsObj,
     })
     .then((response) => {
-      let artSelection = response.data.objectIDs[randResultNum];
-      return axios
-        .get(
-          `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artSelection}`
-        )
-        .then((response) => {
-          let selection: any = response.data;
-          const artpiece: MediaItem = {
-            title: selection.title,
-            subtitle: selection.artistDisplayName,
-            artImg: selection.primaryImageSmall,
-            category: "Artwork",
-            nativeId: selection.objectID,
-            winner: false,
-          };
-          // console.log(`Artpiece:`, selection);
-          return artpiece;
-        });
+      if (response.data.data[randResultNum].image_id === null) {
+        randResultNum = Math.floor(Math.random() * 10);
+      }
+
+      let artSelection = response.data.data[randResultNum];
+      const artpiece: MediaItem = {
+        title: artSelection.title,
+        subtitle: artSelection.artist_title,
+        artImg: `https://www.artic.edu/iiif/2/${artSelection.image_id}/full/843,/0/default.jpg`,
+        category: "Artpiece",
+        nativeId: `${artSelection.artist_title}: ${artSelection.title}`,
+        winner: false,
+      };
+      return artpiece;
     });
 };
 
