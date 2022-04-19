@@ -126,7 +126,7 @@ export const getArtpiece = (): Promise<MediaItem> => {
 };
 
 export const getAlbum = (): Promise<MediaItem> => {
-  let randPageNum = Math.floor(Math.random() * 10);
+  let randPageNum = Math.floor(Math.random() * 9) + 1;
   let randResultNum = Math.floor(Math.random() * 50);
   console.log(
     `getAlbum PageNum: ` + randPageNum,
