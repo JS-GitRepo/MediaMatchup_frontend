@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
 import "./MatchupCard.css";
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
+  const [dailyIndex, setDailyIndex] = useState<number>(-1);
   let subtitle1 = matchup?.media1.subtitle;
   let subtitle2 = matchup?.media2.subtitle;
   let backgroundImg1 = matchup?.media1.artImg2
@@ -31,14 +33,41 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
     subtitle2 = matchup?.media2.subtitle.substring(0, 4);
   }
 
+  useEffect(() => {
+    let tempDailyIndex = matchup?.dailyMatchupsIndex!;
+    if (tempDailyIndex < 9 && tempDailyIndex >= 0) {
+      setDailyIndex(tempDailyIndex);
+    }
+    if (dailyIndex >= 8) {
+      setDailyIndex(dailyIndex + 1);
+    }
+  }, [matchup]);
+
+  let dailyHeaderJSX = <div></div>;
+  if (dailyIndex <= 9 && dailyIndex >= 0) {
+    dailyHeaderJSX = (
+      <div className="daily-header">
+        <p>{`Daily Matchup: ${dailyIndex + 1}`}</p>
+      </div>
+    );
+  } else if (dailyIndex > 9 && dailyIndex < 13) {
+    dailyHeaderJSX = (
+      <div className="daily-header">
+        <p>{`Daily Matchups Complete!`}</p>
+      </div>
+    );
+  } else {
+    <div></div>;
+  }
+
   return (
     <div className="MatchupCard">
+      {dailyHeaderJSX}
       <div
         className="media1-container"
         onClick={() =>
           onSubmitMatchup(matchup?.media1!, matchup?.dailyMatchupsIndex)
-        }
-      >
+        }>
         <div className="image-subcontainer">
           <img
             className="media1-main-img main-img"
@@ -57,13 +86,14 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
           alt={`Background Image 1: ${matchup?.media1.title}`}
         />
       </div>
+
       <p className="vs">VS</p>
+
       <div
         className="media2-container"
         onClick={() =>
           onSubmitMatchup(matchup?.media2!, matchup?.dailyMatchupsIndex)
-        }
-      >
+        }>
         <div className="image-subcontainer">
           <img
             className="media2-main-img main-img"

@@ -6,11 +6,17 @@
 
 /* SPECIFICS */
 .MatchupFeed {
+  position: relative;
   display: flex;
+  flex: 3;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  max-height: 80%;
+}
+
+.MatchupFeed .matchup-feed-list {
   overflow-y: scroll;
+  max-height: 100%;
 }

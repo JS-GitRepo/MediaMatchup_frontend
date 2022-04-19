@@ -5,6 +5,7 @@ import "./MatchupFeedCard.css";
 
 interface Props {
   matchup: Matchup;
+  key: string;
 }
 
 const MatchupFeedCard = ({ matchup }: Props) => {

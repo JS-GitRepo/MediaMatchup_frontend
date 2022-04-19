@@ -1,13 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
 import Matchup from "../models/Matchup";
 import { getMatchupsByUID } from "../services/MatchupService";
-import Footer from "./Footer";
 import "./MatchupFeed.css";
 import MatchupFeedCard from "./MatchupFeedCard";
 
-const MatchupFeed = () => {
+interface Props {
+  userID: string | undefined;
+  currentDisplay: string;
+}
+
+const MatchupFeed = ({ userID, currentDisplay }: Props) => {
   const [userMatchups, setUserMatchups] = useState<Matchup[]>([]);
   const { user } = useContext(SocialContext);
 
@@ -25,14 +28,13 @@ const MatchupFeed = () => {
 
   return (
     <div className="MatchupFeed">
-      <ul>
-        {userMatchups.map((matchupCard) => {
-          return <MatchupFeedCard matchup={matchupCard} />;
+      <ul className="matchup-feed-list">
+        {userMatchups.map((matchupCard, i) => {
+          return (
+            <MatchupFeedCard key={`Matchup: ${i}`} matchup={matchupCard} />
+          );
         })}
       </ul>
-      <Link to="/">
-        <button>Return to Matchups</button>
-      </Link>
     </div>
   );
 };
