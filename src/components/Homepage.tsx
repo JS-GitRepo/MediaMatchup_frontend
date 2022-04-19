@@ -1,8 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import SocialContext from "../context/SocialContext";
-import { signInWithGoogle, signOut } from "../firebaseConfig";
-import DailyMatchupCollection from "../models/DailyMatchupCollection";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
 import {
@@ -28,7 +25,6 @@ const Homepage = () => {
   const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
   const [matchup, setMatchup] = useState<Matchup>();
-  const [cardType, setCardType] = useState<JSX.Element>();
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
 
   const { user } = useContext(SocialContext);
@@ -160,16 +156,17 @@ const Homepage = () => {
     let tempDailyIsComplete = dailyIsComplete;
     console.log(tempUserDate);
 
-    if (tempUserDate === todaysCollection.simpleDate) {
-      if (tempUserIndex === 9) {
-        tempDailyIsComplete = true;
-        setDailyIsComplete(true);
-      }
-      todaysCollection.matchups.splice(0, tempUserIndex! + 1);
-    }
-
     if (todaysCollection) {
+      if (tempUserDate === todaysCollection.simpleDate) {
+        if (tempUserIndex === 9) {
+          tempDailyIsComplete = true;
+          setDailyIsComplete(true);
+        }
+        todaysCollection.matchups.splice(0, tempUserIndex! + 1);
+      }
+
       setDailyMatchups(todaysCollection.matchups);
+
       if (tempDailyIsComplete === false) {
         setMatchup(todaysCollection.matchups[0]);
       } else {
@@ -193,7 +190,7 @@ const Homepage = () => {
     }
   };
 
-  const checkAndSetMatchup = async () => {
+  const checkAndSetMatchups = async () => {
     let tempDailyIsComplete = dailyIsComplete;
     if (matchup!.dailyMatchupsIndex) {
       if (dailyMatchups[0].dailyMatchupsIndex === 9) {
@@ -239,17 +236,15 @@ const Homepage = () => {
       await updateUserDailiesByID(user!.uid as string, updatesObj);
     }
     console.log("Daily Matchups Status: ", dailyMatchups);
-    checkAndSetMatchup();
+    checkAndSetMatchups();
   };
 
-  const matchupCardJSX = (
-    <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />
-  );
-
+  const matchupCardJSX = <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />;
   const statsCardJSX = <StatsCard />;
+  const [cardType, setCardType] = useState<JSX.Element>(matchupCardJSX);
 
-  // This use effect gets the date; sets a detailed and simplified version, then checks to see if a daily 10 has been submitted for the day. If not, it creates one, and sets it for the user. If it has been, it retrieves and sets it for the user.
   useEffect(() => {
+    setCardType(matchupCardJSX);
     setIsInitialRender(false);
   }, []);
 
@@ -266,19 +261,12 @@ const Homepage = () => {
     }
   }, [matchup]);
 
-  // When dailyMatchups changes, this runs.
-  useEffect(() => {
-    // if (!isInitialRender && dailyMatchups.length === 10) {
-    //   setMatchup(dailyMatchups![0]);
-    // }
-  }, [dailyMatchups]);
-
   return (
     <div className="Homepage">
       {user ? (
         <div>
           {matchupCardJSX}
-          <button onClick={checkAndSetMatchup}>GENERATE NEW MATCHUP</button>
+          <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button>
         </div>
       ) : (
         <div></div>

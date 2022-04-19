@@ -33,7 +33,6 @@ const MatchupFeed = () => {
       <Link to="/">
         <button>Return to Matchups</button>
       </Link>
-      <Footer />
     </div>
   );
 };
