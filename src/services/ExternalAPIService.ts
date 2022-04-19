@@ -12,7 +12,7 @@ export const getMovie = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 62) + 1;
   // randResultNum is for an array, so 1-20 actually equals 0-19
   let randResultNum = Math.floor(Math.random() * 20);
-  console.log(`Movie PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
+  // console.log(`Movie PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
   let paramsObj = {
     api_key: tmdbKey as string,
     include_adult: "false",
@@ -47,7 +47,7 @@ export const getTVShow = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 15) + 1;
   // randResultNum is for an array, so 1-20 actually equals 0-19
   let randResultNum = Math.floor(Math.random() * 20);
-  console.log(`TVShow PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
+  // console.log(`TVShow PageNum: ` + randPageNum, `ResultNum: ` + randResultNum);
   let paramsObj = {
     api_key: tmdbKey as string,
     language: "en-US",
@@ -101,7 +101,7 @@ export const getArtpiece = (): Promise<MediaItem> => {
     "yayoi kusama",
     "Kawanabe Kyosai",
   ];
-  let randArtistNum = Math.floor(Math.random() * artistArray.length) + 1;
+  let randArtistNum = Math.floor(Math.random() * (artistArray.length + 1));
   console.log(
     `Artpiece ArtistNum:` + randArtistNum,
     `ResultNum:` + randResultNum
@@ -118,7 +118,12 @@ export const getArtpiece = (): Promise<MediaItem> => {
       params: paramsObj,
     })
     .then((response) => {
-      if (response.data.data[randResultNum].image_id === null) {
+      let imageResponse = response.data.data[randResultNum].image_id;
+      if (
+        imageResponse === null ||
+        imageResponse === "null" ||
+        imageResponse === ""
+      ) {
         randResultNum = Math.floor(Math.random() * 10);
       }
 
@@ -188,10 +193,10 @@ export const getVideoGame = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 20) + 1;
   // randResultNum is for an array, so 1-20 actually equals 0-19
   let randResultNum = Math.floor(Math.random() * 20);
-  console.log(
-    `VidGame PageNum: ` + randPageNum,
-    `VidGame ResultNum: ` + randResultNum
-  );
+  // console.log(
+  //   `VidGame PageNum: ` + randPageNum,
+  //   `VidGame ResultNum: ` + randResultNum
+  // );
   let paramsObj = {
     key: rawGKey as string,
     metacritic: "88,100",
