@@ -147,8 +147,8 @@ const Homepage = () => {
 
   const checkAndSetDailyMatchups = async (): Promise<void> => {
     const tempUser = await getUserById(user!.uid);
-    const tempUserIndex = tempUser.dailyMatchupsIndex;
-    const tempUserDate = tempUser.dailyMatchupsDate;
+    const tempUserIndex = tempUser!.dailyMatchupsIndex;
+    const tempUserDate = tempUser!.dailyMatchupsDate;
     const dateInfo = generateDateInfo();
     const detailedDate = dateInfo.detailedDate;
     const simpleDate = dateInfo.simpleDate;
@@ -238,7 +238,6 @@ const Homepage = () => {
     console.log("Daily Matchups Status: ", dailyMatchups);
     checkAndSetMatchups();
   };
-
   const matchupCardJSX = (
     <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />
   );

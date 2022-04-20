@@ -4,11 +4,6 @@
   padding: 0px;
 }
 
-body {
-  background-color: #000;
-  color: white;
-}
-
 /* SPECIFICS */
 .MatchupCard {
   display: flex;
@@ -45,7 +40,7 @@ body {
   top: 33%;
   left: 50%;
   transform: translate(-50%, 33%);
-  z-index: 1;
+  z-index: 2;
   text-shadow: -2px 2px 0 #000, 2px 2px 0 #000, 2px -2px 0 #000,
     -2px -2px 0 #000;
 }
@@ -86,7 +81,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: -1;
+  z-index: 0;
   min-height: 100vh;
   width: 100%;
   background-position: center;
@@ -102,11 +97,13 @@ body {
   align-items: center;
   flex: 4;
   width: 100%;
+  z-index: 1;
 }
 
 .MatchupCard .text-subcontainer {
   flex: 3;
   width: 100%;
+  z-index: 1;
 }
 
 .MatchupCard .test1 {
