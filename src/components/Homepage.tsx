@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
 import { signInWithGoogle } from "../firebaseConfig";
 import Matchup from "../models/Matchup";
@@ -27,6 +27,8 @@ const Homepage = () => {
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
   const [matchup, setMatchup] = useState<Matchup>();
+  const [navAnimation, setNavAnimation] = useState(false);
+  const navigation = useNavigate();
 
   const { user } = useContext(SocialContext);
   const getMediaArray = [
@@ -245,6 +247,13 @@ const Homepage = () => {
   const statsCardJSX = <StatsCard />;
   const [cardType, setCardType] = useState<JSX.Element>(matchupCardJSX);
 
+  const testFunction = () => {
+    setNavAnimation(true);
+    setTimeout(() => {
+      navigation("/nav/myfeed");
+    }, 750);
+  };
+
   useEffect(() => {
     setCardType(matchupCardJSX);
     setIsInitialRender(false);
@@ -264,15 +273,16 @@ const Homepage = () => {
   }, [matchup]);
 
   return (
-    <div className="Homepage">
+    <div className={`Homepage${navAnimation ? " test" : ""}`}>
       {user ? (
         <div>
           {matchupCardJSX}
           <div className="homepage-buttons-container">
             <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button>
-            <Link to="/nav/myfeed">
-              <button>Navigate</button>
-            </Link>
+            <i
+              onClick={() => testFunction()}
+              className="fa-solid fa-angle-up"
+            ></i>
           </div>
         </div>
       ) : (

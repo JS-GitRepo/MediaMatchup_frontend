@@ -39,3 +39,16 @@
   width: 200px;
   padding: 5px;
 }
+
+.Homepage .fa-angle-up {
+  color: white;
+  font-size: 100px;
+  text-decoration: none;
+  transform: scale(5.25, 0.8);
+  opacity: 0.4;
+}
+
+.Homepage.test {
+  transform: translateY(-100vh);
+  transition: 1s;
+}
