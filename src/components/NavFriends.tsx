@@ -1,72 +1,32 @@
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import SocialContext from "../context/SocialContext";
-import Friend from "../models/Friend";
-import {
-  addFriend,
-  getUserByEmail,
-  getUserById,
-} from "../services/UserService";
 import "./NavFriends.css";
+import NavFriendListForm from "./NavFriendListForm";
+import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import NavFriendByUID from "./NavFriendByUID";
+import MatchupFeed from "./MatchupFeed";
+import SocialContext from "../context/SocialContext";
 
 const NavFriends = () => {
-  const [friendEmail, setFriendEmail] = useState<string>();
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [displayJSX, setDisplayJSX] = useState<JSX.Element>();
   const { user } = useContext(SocialContext);
-  const formRef = useRef<HTMLFormElement>(null);
+  const location = useLocation();
+  const pathNameEnding = location.pathname.split("/").pop();
 
-  const submitHandler = async (e: FormEvent) => {
-    e.preventDefault();
-    const friend = await getUserByEmail(friendEmail!);
-    const userRecord = await getUserById(user?.uid!);
-    if (friend) {
-      let friendObj = {
-        uid: friend.uid,
-        name: friend.name,
-      };
-      console.log(friend);
-      await addFriend(user?.uid!, friendObj);
-      if (userRecord?.friends) {
-        setFriends(userRecord?.friends);
-      }
-    } else {
-      alert(`Sorry, no user found with the email '${friendEmail}'`);
-    }
-    formRef.current?.reset();
-  };
+  const navFriendListFormJSX = <NavFriendListForm />;
+  const friendFeedByUID = (
+    <MatchupFeed userID={pathNameEnding} currentDisplay={"Friends"} />
+  );
 
   useEffect(() => {
-    if (user) {
-      getUserById(user!.uid!).then((response) => {
-        setFriends(response!.friends!);
-      });
+    console.log("Location Pathname Changed To: ", pathNameEnding);
+    if (pathNameEnding != "friends" && pathNameEnding != "myfeed") {
+      setDisplayJSX(friendFeedByUID);
+    } else if (pathNameEnding === "friends") {
+      setDisplayJSX(navFriendListFormJSX);
     }
-  }, [user]);
+  }, [location]);
 
-  return (
-    <div className="NavFriends">
-      {user ? (
-        <form
-          ref={formRef}
-          className="add-friend-form"
-          onSubmit={(e) => submitHandler(e)}>
-          <label htmlFor="addFriend"></label>
-          <input
-            type="email"
-            name="addFriend"
-            id="addFriend"
-            placeholder="yourfriend@email.com"
-            onChange={(e) => setFriendEmail(e.target.value)}
-          />
-          <button>Add Friend</button>
-        </form>
-      ) : (
-        <div></div>
-      )}
-      {friends.map((friend, i) => {
-        return <p key={i}>{friend.name}</p>;
-      })}
-    </div>
-  );
+  return <div className="NavFriends">{displayJSX}</div>;
 };
 
 export default NavFriends;

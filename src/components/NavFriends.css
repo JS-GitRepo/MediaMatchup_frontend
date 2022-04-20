@@ -9,4 +9,15 @@
   width: 100vw;
   height: 80%;
   box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.NavFriends .is-green {
+  color: rgb(0, 202, 84);
+  font-weight: bold;
+}
+
+.NavFriends .is-red {
+  color: rgb(207, 0, 0);
+  font-weight: bold;
 }
