@@ -184,3 +184,40 @@ body {
     transform: translateY(0px) scale3d(1.1, 1.1, 1.1);
   }
 }
+/* >>>>>>>>>>>>>>>>>>>>MEDIA QUERY<<<<<<<<<<<<<<<<<< */
+
+@media only screen and (min-width: 768px) {
+  .MatchupCard {
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .MatchupCard .main-img {
+    min-width: 450px;
+    min-height: 450px;
+    object-fit: cover;
+  }
+
+  .MatchupCard .bg-img {
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    object-fit: cover;
+    filter: hue-rotate(15deg) brightness(50%) contrast(110%) blur(4px);
+  }
+
+  .MatchupCard .image-subcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 30%;
+  }
+}
