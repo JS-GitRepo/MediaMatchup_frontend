@@ -4,6 +4,11 @@
   padding: 0px;
 }
 
+body {
+  background-color: #000;
+  color: white;
+}
+
 /* SPECIFICS */
 .MatchupCard {
   display: flex;
@@ -102,4 +107,14 @@
 .MatchupCard .text-subcontainer {
   flex: 3;
   width: 100%;
+}
+
+.MatchupCard .test1 {
+  transform: rotate(360deg);
+  transition: 0.5s;
+}
+
+.MatchupCard .test2 {
+  transform: rotate(360deg);
+  transition: 0.5s;
 }

@@ -9,6 +9,8 @@ interface Props {
 }
 
 const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
+  const [media1Animation, setMedia1Animation] = useState(false);
+  const [media2Animation, setMedia2Animation] = useState(false);
   const [dailyIndex, setDailyIndex] = useState<number>(-1);
   let subtitle1 = matchup?.media1.subtitle;
   let subtitle2 = matchup?.media2.subtitle;
@@ -32,6 +34,21 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
   ) {
     subtitle2 = matchup?.media2.subtitle.substring(0, 4);
   }
+
+  const test = (
+    whichMedia: number,
+    winner: MediaItem,
+    dailyMatchupIndex?: number
+  ) => {
+    if (whichMedia === 1) {
+      setMedia1Animation(true);
+      setTimeout(() => setMedia1Animation(false), 500);
+    } else {
+      setMedia2Animation(true);
+      setTimeout(() => setMedia2Animation(false), 500);
+    }
+    onSubmitMatchup(winner, dailyMatchupIndex);
+  };
 
   useEffect(() => {
     let tempDailyIndex = matchup?.dailyMatchupsIndex!;
@@ -64,10 +81,9 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
     <div className="MatchupCard">
       {dailyHeaderJSX}
       <div
-        className="media1-container"
-        onClick={() =>
-          onSubmitMatchup(matchup?.media1!, matchup?.dailyMatchupsIndex)
-        }>
+        className={`media1-container${media1Animation ? " test1" : ""}`}
+        onClick={() => test(1, matchup?.media1!, matchup?.dailyMatchupsIndex)}
+      >
         <div className="image-subcontainer">
           <img
             className="media1-main-img main-img"
@@ -90,10 +106,9 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
       <p className="vs">VS</p>
 
       <div
-        className="media2-container"
-        onClick={() =>
-          onSubmitMatchup(matchup?.media2!, matchup?.dailyMatchupsIndex)
-        }>
+        className={`media2-container${media2Animation ? " test2" : ""}`}
+        onClick={() => test(2, matchup?.media1!, matchup?.dailyMatchupsIndex)}
+      >
         <div className="image-subcontainer">
           <img
             className="media2-main-img main-img"
