@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useRef, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import SocialContext from "../context/SocialContext";
 import Friend from "../models/Friend";
 import {
@@ -33,6 +33,14 @@ const NavFriends = () => {
     }
     formRef.current?.reset();
   };
+
+  useEffect(() => {
+    if (user) {
+      getUserById(user!.uid!).then((response) => {
+        setFriends(response!.friends!);
+      });
+    }
+  }, [user]);
 
   return (
     <div className="NavFriends">
