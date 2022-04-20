@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
+import { signInWithGoogle } from "../firebaseConfig";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
 import {
@@ -275,7 +276,9 @@ const Homepage = () => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <div>
+          <button onClick={signInWithGoogle}>Sign In With Google</button>
+        </div>
       )}
     </div>
   );
