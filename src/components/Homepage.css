@@ -5,9 +5,37 @@
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: #000;
+  color: white;
   /* overflow-y: scroll; */
 }
 
 .Homepage .sign-in-btn {
   width: 250px;
+}
+
+.Homepage .homepage-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  bottom: 0px;
+  width: 100vw;
+}
+
+.Homepage .homepage-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0px;
+  width: 100vw;
+  padding: 25px 0px;
+  z-index: 3;
+}
+
+.Homepage .homepage-buttons-container button {
+  width: 200px;
+  padding: 5px;
 }

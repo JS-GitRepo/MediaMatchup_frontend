@@ -85,7 +85,6 @@ export const getArtpiece = (): Promise<MediaItem> => {
     "Pablo Picasso",
     "Salvador Dali",
     "Rembrandt",
-    "Frida Kahlo",
     "Jackson Pollock",
     "Andy Warhol",
     "Rothko",
