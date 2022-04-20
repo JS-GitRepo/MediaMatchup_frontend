@@ -1,9 +1,12 @@
+import Friend from "./Friend";
+
 export default interface UserAccount {
   _id?: string;
   uid: string;
   name: string;
   email: string;
-  friends?: [{}];
+  photoURL: string;
+  friends?: Friend[];
   favorites?: [{}];
   dailyMatchupsDate?: number;
   dailyMatchupsIndex?: number;
