@@ -110,11 +110,11 @@ body {
 }
 
 .MatchupCard .test1 {
-  transform: rotate(360deg);
+  transform: translateX(-33vh);
   transition: 0.5s;
 }
 
 .MatchupCard .test2 {
-  transform: rotate(360deg);
+  transform: translateX(33vh);
   transition: 0.5s;
 }

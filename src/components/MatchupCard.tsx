@@ -47,7 +47,7 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
       setMedia2Animation(true);
       setTimeout(() => setMedia2Animation(false), 500);
     }
-    onSubmitMatchup(winner, dailyMatchupIndex);
+    setTimeout(() => onSubmitMatchup(winner, dailyMatchupIndex), 120);
   };
 
   useEffect(() => {
