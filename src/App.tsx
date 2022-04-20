@@ -18,6 +18,10 @@ function App() {
             element={<NavPage currentDisplay="Friends" />}
           />
           <Route
+            path="/nav/friends/:id"
+            element={<NavPage currentDisplay="Friends" />}
+          />
+          <Route
             path="/nav/community"
             element={<NavPage currentDisplay="Community" />}
           />
