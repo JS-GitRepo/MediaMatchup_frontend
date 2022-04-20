@@ -268,14 +268,16 @@ const Homepage = () => {
       {user ? (
         <div>
           {matchupCardJSX}
-          <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button>
+          <div className="homepage-buttons-container">
+            <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button>
+            <Link to="/nav/myfeed">
+              <button>Navigate</button>
+            </Link>
+          </div>
         </div>
       ) : (
         <div></div>
       )}
-      <Link to="/nav/myfeed">
-        <button>Navigate</button>
-      </Link>
     </div>
   );
 };

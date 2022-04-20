@@ -1,5 +1,5 @@
 /* SPECIFICS */
-.NavFriends {
+.NavCommunity {
   position: relative;
   display: flex;
   flex: 3;
@@ -8,5 +8,4 @@
   align-items: center;
   width: 100vw;
   height: 80%;
-  box-sizing: border-box;
 }

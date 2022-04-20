@@ -6,17 +6,21 @@
 
 /* SPECIFICS */
 .MatchupFeed {
-  position: relative;
   display: flex;
-  flex: 3;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  max-height: 80%;
+  height: 75%;
+  box-sizing: border-box;
 }
 
 .MatchupFeed .matchup-feed-list {
+  box-sizing: border-box;
   overflow-y: scroll;
   max-height: 100%;
+}
+
+.MatchupFeed .matchup-feed-list .MatchupFeedCard {
+  box-sizing: border-box;
 }
