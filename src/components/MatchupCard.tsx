@@ -11,6 +11,8 @@ interface Props {
 const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
   const [media1Animation, setMedia1Animation] = useState(false);
   const [media2Animation, setMedia2Animation] = useState(false);
+  const [crown1Animation, setCrown1Animation] = useState(false);
+  const [crown2Animation, setCrown2Animation] = useState(false);
   const [dailyIndex, setDailyIndex] = useState<number>(-1);
   let subtitle1 = matchup?.media1.subtitle;
   let subtitle2 = matchup?.media2.subtitle;
@@ -43,9 +45,13 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
     if (whichMedia === 1) {
       setMedia1Animation(true);
       setTimeout(() => setMedia1Animation(false), 500);
+      setCrown1Animation(true);
+      setTimeout(() => setCrown1Animation(false), 500);
     } else {
       setMedia2Animation(true);
       setTimeout(() => setMedia2Animation(false), 500);
+      setCrown2Animation(true);
+      setTimeout(() => setCrown2Animation(false), 500);
     }
     setTimeout(() => onSubmitMatchup(winner, dailyMatchupIndex), 120);
   };
@@ -80,6 +86,11 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
   return (
     <div className="MatchupCard">
       {dailyHeaderJSX}
+      <i
+        className={`fa-solid fa-crown${
+          crown1Animation ? " crownAnimation1" : ""
+        }`}
+      ></i>
       <div
         className={`media1-container${media1Animation ? " test1" : ""}`}
         onClick={() => test(1, matchup?.media1!, matchup?.dailyMatchupsIndex)}
@@ -105,6 +116,11 @@ const MatchupCard = ({ matchup, onSubmitMatchup }: Props) => {
 
       <p className="vs">VS</p>
 
+      <i
+        className={`fa-solid fa-crown${
+          crown2Animation ? " crownAnimation2" : ""
+        }`}
+      ></i>
       <div
         className={`media2-container${media2Animation ? " test2" : ""}`}
         onClick={() => test(2, matchup?.media1!, matchup?.dailyMatchupsIndex)}
