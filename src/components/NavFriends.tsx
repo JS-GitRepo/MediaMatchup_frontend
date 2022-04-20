@@ -1,14 +1,11 @@
 import "./NavFriends.css";
 import NavFriendListForm from "./NavFriendListForm";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import NavFriendByUID from "./NavFriendByUID";
 import MatchupFeed from "./MatchupFeed";
-import SocialContext from "../context/SocialContext";
 
 const NavFriends = () => {
   const [displayJSX, setDisplayJSX] = useState<JSX.Element>();
-  const { user } = useContext(SocialContext);
   const location = useLocation();
   const pathNameEnding = location.pathname.split("/").pop();
 

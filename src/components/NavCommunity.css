@@ -9,3 +9,23 @@
   width: 100vw;
   height: 80%;
 }
+
+.NavCommunity .bg-img {
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  min-height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover;
+  filter: hue-rotate(15deg) brightness(50%) contrast(110%) blur(4px);
+}
+
+.NavCommunity .daily-stats {
+  width: 100vw;
+}
