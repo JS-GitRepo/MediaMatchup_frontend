@@ -1,15 +1,17 @@
 /* SPECIFICS */
 .NavFriends {
-  position: relative;
   display: flex;
-  flex: 3;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 80%;
-  box-sizing: border-box;
+  height: 100vh;
+  max-height: 100vh;
   overflow-y: scroll;
+}
+
+.NavFriends .MatchupFeed {
+  height: 100%;
 }
 
 .NavFriends .is-green {

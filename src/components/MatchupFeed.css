@@ -24,3 +24,23 @@
 .MatchupFeed .matchup-feed-list .MatchupFeedCard {
   box-sizing: border-box;
 }
+
+.MatchupFeed .matchup-feed-heading {
+  max-width: 75%;
+}
+
+.MatchupFeed .matchup-feed-heading h1 {
+  display: flex;
+  position: relative;
+  font-size: 24px;
+  margin: 10px 0px;
+}
+
+.MatchupFeed .material-icons {
+  text-decoration: none;
+  color: black;
+  position: absolute;
+  font-size: 42px;
+  left: -35px;
+  top: -3px;
+}

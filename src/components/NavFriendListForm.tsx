@@ -95,8 +95,8 @@ const NavFriendListForm = () => {
             <ul>
               {friends.map((friend, i) => {
                 return (
-                  <Link to={`/nav/friends/${friend.uid}`}>
-                    <p key={i}>{friend.name}</p>
+                  <Link key={i} to={`/nav/friends/${friend.uid}`}>
+                    <p>{friend.name}</p>
                   </Link>
                 );
               })}
