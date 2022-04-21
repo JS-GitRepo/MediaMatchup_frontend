@@ -6,24 +6,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 80%;
+  width: 98vw;
+  height: 66%;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .NavCommunity .bg-img {
   display: block;
   position: absolute;
   box-sizing: border-box;
-  top: 0;
+  /* top: 0; */
   left: 0;
   right: 0;
   z-index: -1;
-  min-height: 100%;
+  min-height: 105%;
   width: 100%;
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   object-fit: cover;
   filter: hue-rotate(15deg) brightness(50%) contrast(110%) blur(4px);
+  border-radius: 20px;
 }
 
 .NavCommunity .daily-stats {

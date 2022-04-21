@@ -153,7 +153,7 @@ export const getAlbum = (): Promise<MediaItem> => {
     page: randPageNum.toString(),
   };
   return axios
-    .get(`http://ws.audioscrobbler.com/2.0/`, {
+    .get(`https://ws.audioscrobbler.com/2.0/`, {
       params: paramsObj,
     })
     .then((response) => {
@@ -166,7 +166,7 @@ export const getAlbum = (): Promise<MediaItem> => {
       };
       let randResultNum2 = Math.floor(Math.random() * 2);
       return axios
-        .get(`http://ws.audioscrobbler.com/2.0/`, {
+        .get(`https://ws.audioscrobbler.com/2.0/`, {
           params: paramsObj2,
         })
         .then((response) => {
