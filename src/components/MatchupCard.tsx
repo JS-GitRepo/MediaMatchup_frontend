@@ -139,16 +139,6 @@ const MatchupCard = ({
     <div></div>;
   }
 
-  let loadingContainerJSX = (
-    <div className="loading-container">
-      <div className="spinner">
-        <div className="bounce1"></div>
-        <div className="bounce2"></div>
-        <div className="bounce3"></div>
-      </div>
-    </div>
-  );
-
   useEffect(() => {
     setIsInitialRender(false);
   }, []);
@@ -220,7 +210,7 @@ const MatchupCard = ({
       <div
         className={`media2-container${media2Animation ? " test2" : ""}`}
         onClick={() =>
-          winnerAnimation(2, matchup?.media1!, matchup?.dailyMatchupsIndex)
+          winnerAnimation(2, matchup?.media2!, matchup?.dailyMatchupsIndex)
         }>
         <div className="image-subcontainer">
           <img
