@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
@@ -25,6 +24,8 @@ const MatchupCard = ({
   const [isInitialRender, setIsInitialRender] = useState(true);
   const [showGenerateButton, setShowGenerateButton] = useState(true);
   const [dailyIndex, setDailyIndex] = useState<number>(-1);
+  const [mediaIsDefined, setMediaIsDefined] = useState<boolean>(false);
+  const mediaDefinedCounter = useRef(0);
   //  useStates for media / matchup variable construction
   const [title1, setTitle1] = useState<string>();
   const [title2, setTitle2] = useState<string>();
@@ -106,9 +107,18 @@ const MatchupCard = ({
   };
 
   const imageLoaded = () => {
+    console.log(loadingImages.length);
     imageLoadedCounter.current += 1;
     if (imageLoadedCounter.current >= loadingImages.length) {
       setImagesAreLoaded(true);
+    }
+  };
+
+  const mediaDefined = () => {
+    console.log(loadingImages.length);
+    imageLoadedCounter.current += 1;
+    if (imageLoadedCounter.current >= loadingImages.length) {
+      setMediaIsDefined(true);
     }
   };
 

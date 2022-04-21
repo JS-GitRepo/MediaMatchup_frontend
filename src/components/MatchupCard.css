@@ -29,6 +29,12 @@
   opacity: 0.9;
 }
 
+.MatchupCard .daily-header p {
+  padding: 10px 20px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 30px;
+}
+
 .MatchupCard .generate-matchup {
   display: flex;
   bottom: 10%;
@@ -43,12 +49,6 @@
   padding: 10px 20px;
   border: 2px solid rgb(255, 255, 255);
   border-radius: 15px;
-}
-
-.MatchupCard .daily-header p {
-  padding: 10px 20px;
-  border: 2px solid rgb(255, 255, 255);
-  border-radius: 30px;
 }
 
 .MatchupCard .hide {
@@ -202,9 +202,8 @@
   }
 
   .MatchupCard .main-img {
-    min-width: 450px;
-    min-height: 450px;
-    object-fit: fill;
+    width: 275px;
+    height: 325px;
   }
 
   .MatchupCard .bg-img {

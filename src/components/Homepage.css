@@ -14,6 +14,31 @@
   width: 250px;
 }
 
+.Homepage .sign-in-container {
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+
+.Homepage .sign-in-container p {
+  padding: 15px 25px;
+  border: 4px solid rgb(255, 255, 255);
+  border-radius: 30px;
+  z-index: 1;
+}
+
+.Homepage .sign-in-container .sign-in-bg-img {
+  position: absolute;
+  z-index: 0;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  object-fit: cover;
+  filter: hue-rotate(15deg) brightness(60%) contrast(100%) blur(6px);
+}
+
 .Homepage .homepage-buttons {
   display: flex;
   flex-direction: column;
@@ -57,4 +82,11 @@
 .Homepage.test {
   transform: translateY(-100vh);
   transition: 1s;
+}
+
+/* >>>>>>>>>>>>>>>>>> Media Queries <<<<<<<<<<<<<<<<<< */
+@media only screen and (min-width: 768px) {
+  .Homepage .nav-chevron {
+    height: 60px;
+  }
 }
