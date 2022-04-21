@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialContext from "../context/SocialContext";
 import { signInWithGoogle, signOut } from "../firebaseConfig";
 import "./NavFooter.css";
@@ -10,6 +10,7 @@ interface Props {
 
 const NavFooter = ({ currentDisplay }: Props) => {
   const { user } = useContext(SocialContext);
+  const navigate = useNavigate();
   const leftNav = () => {
     if (currentDisplay === "My Feed") {
       return "/nav/community";
@@ -55,7 +56,12 @@ const NavFooter = ({ currentDisplay }: Props) => {
         </p>
       </div>
       {/* <p>{user.email}</p> */}
-      <button className="signout button" onClick={signOut}>
+      <button
+        className="signout button"
+        onClick={() => {
+          signOut();
+          navigate("/");
+        }}>
         SignOut
       </button>
     </div>

@@ -19,15 +19,11 @@ const NavCommunity = () => {
 
   return (
     <div className="NavCommunity">
-      <img
-        className="bg-img"
-        src={bgImgURL}
-        alt="Winner: GKMC by Kendrick Lamar"
-      />
+      <img className="bg-img" src={bgImgURL} alt="Winner: College Dropout" />
       <div className="daily-stats">
-        <ul>
+        <ul className="daily-list">
           <li>
-            <p>Today's Winner:</p>
+            <p className="todays-winner">Today's Winner:</p>
             <img
               src="https://upload.wikimedia.org/wikipedia/en/a/a3/Kanyewest_collegedropout.jpg"
               alt=""
