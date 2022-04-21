@@ -44,6 +44,8 @@ const Homepage = () => {
   const [matchup, setMatchup] = useState<Matchup>(defaultMatchup);
   const [navAnimation, setNavAnimation] = useState(false);
   const navigation = useNavigate();
+  const bgImgURL =
+    "https://apollo.imgix.net/content/uploads/2018/02/LEADPablo-Picasso-Femme-au-beret-et-a-la-robe-quadrillee-Marie-Therese-Walter-December-1937.jpg?auto=compress,format&crop=faces,entropy,edges&fit=crop&w=900&h=600";
 
   const { user } = useContext(SocialContext);
   const getMediaArray = [
@@ -318,8 +320,13 @@ const Homepage = () => {
           </div>
         </div>
       ) : (
-        <div>
-          <button onClick={signInWithGoogle}>Sign In With Google</button>
+        <div className="sign-in-container">
+          <p onClick={signInWithGoogle}>Sign In With Google</p>
+          <img
+            className="sign-in-bg-img"
+            src={bgImgURL}
+            alt="login background image"
+          />
         </div>
       )}
     </div>
