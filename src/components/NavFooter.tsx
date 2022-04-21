@@ -32,10 +32,6 @@ const NavFooter = ({ currentDisplay }: Props) => {
 
   return (
     <div className="NavFooter">
-      <Link to="/">
-        <button className="return button">Return to Matchups</button>
-      </Link>
-
       <div className="nav-container">
         <p>
           {currentDisplay === "My Feed" || currentDisplay === "Friends" ? (
@@ -56,14 +52,19 @@ const NavFooter = ({ currentDisplay }: Props) => {
         </p>
       </div>
       {/* <p>{user.email}</p> */}
-      <button
-        className="signout button"
-        onClick={() => {
-          signOut();
-          navigate("/");
-        }}>
-        SignOut
-      </button>
+      <div className="buttons-container">
+        <button onClick={() => navigate("/")} className="return button">
+          Return to Matchups
+        </button>
+        <button
+          className="signout button"
+          onClick={() => {
+            signOut();
+            navigate("/");
+          }}>
+          SignOut
+        </button>
+      </div>
     </div>
   );
 };
