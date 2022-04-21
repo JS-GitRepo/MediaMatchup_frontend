@@ -129,7 +129,17 @@
   z-index: 1;
 }
 
+/* - - - - Hover States - - - - - */
+.MatchupCard .daily-header p:hover {
+  background-color: black;
+  cursor: pointer;
+}
+
+.nav-chevron:hover {
+  cursor: pointer;
+}
 /* >>>>>>>>>>>>>>>>>>>> Animations <<<<<<<<<<<<<<<<<<<<*/
+
 /* - - - - - - Winner Animation - - - - - - */
 .MatchupCard .test1 {
   transform: translateX(-33vh);
@@ -156,6 +166,8 @@
   z-index: 3;
   font-size: 75px;
   transform: translateY(50vh);
+  text-shadow: 0 0 30px #fbd035, 0 0 10px #fbd035, 0 0 20px #fbd035,
+    0 0 35px #fbd035, 0 0 45px #fbd035;
 
   animation: flicker 0.51s ease-in-out infinite alternate, 0.5s floaty infinite;
 }
@@ -169,6 +181,8 @@
   z-index: 3;
   font-size: 70px;
   transform: translateY(50vh);
+  text-shadow: 0 0 30px #fbd035, 0 0 10px #fbd035, 0 0 20px #fbd035,
+    0 0 35px #fbd035, 0 0 45px #fbd035;
 
   animation: flicker 0.51s ease-in-out infinite alternate, 0.5s floaty infinite;
 }

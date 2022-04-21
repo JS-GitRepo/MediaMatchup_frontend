@@ -32,13 +32,13 @@ const NavFooter = ({ currentDisplay }: Props) => {
   return (
     <div className="NavFooter">
       <Link to="/">
-        <button>Return to Matchups</button>
+        <button className="return button">Return to Matchups</button>
       </Link>
 
       <div className="nav-container">
         <p>
           {currentDisplay === "My Feed" || currentDisplay === "Friends" ? (
-            <Link className="left-nav" to={leftNav()}>
+            <Link className="left-nav angle-btns" to={leftNav()}>
               <span className="material-icons">chevron_left</span>
             </Link>
           ) : (
@@ -46,7 +46,7 @@ const NavFooter = ({ currentDisplay }: Props) => {
           )}
           {currentDisplay}
           {currentDisplay === "My Feed" || currentDisplay === "Community" ? (
-            <Link className="right-nav" to={rightNav()}>
+            <Link className="right-nav angle-btns" to={rightNav()}>
               <span className="material-icons">chevron_right</span>
             </Link>
           ) : (
@@ -55,7 +55,9 @@ const NavFooter = ({ currentDisplay }: Props) => {
         </p>
       </div>
       {/* <p>{user.email}</p> */}
-      <button onClick={signOut}>SignOut</button>
+      <button className="signout button" onClick={signOut}>
+        SignOut
+      </button>
     </div>
   );
 };

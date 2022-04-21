@@ -24,7 +24,8 @@
 
 .NavFooter .nav-container p {
   position: relative;
-  font-size: 22px;
+  font-size: 25px;
+  margin-top: 17px;
 }
 
 .NavFooter .right-nav {
@@ -37,4 +38,30 @@
   position: absolute;
   left: -25px;
   bottom: -4px;
+}
+
+.NavFooter .button {
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 15px;
+  background-color: rgba(75 184 138 / 61%);
+  color: white;
+}
+
+.NavFooter .signout {
+  position: absolute;
+  top: 1%;
+  left: 3%;
+  z-index: 2;
+  padding: 5px 20px;
+}
+
+.NavFooter .return {
+  position: absolute;
+  bottom: 4%;
+  transform: translate(-50%, 33%);
+  padding: 10px 20px;
+}
+.button:hover {
+  background-color: rgba(3, 123, 73, 0.611);
+  cursor: pointer;
 }
