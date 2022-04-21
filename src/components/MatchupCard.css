@@ -170,18 +170,7 @@
   font-size: 70px;
   transform: translateY(50vh);
 
-  animation: flicker 0.51s ease-in-out infinite alternate, 0.5s floaty infinite;
-}
-
-@keyframes flicker {
-  100% {
-    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #fbd035,
-      0 0 82px #fbd035, 0 0 92px #fbd035, 0 0 102px #fbd035, 0 0 151px #fbd035;
-  }
-  0% {
-    text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 0 16px #fff, 0 0 32px #fbd035,
-      0 0 46px #fbd035, 0 0 56px #fbd035, 0 0 68px #fbd035, 0 0 90px #fbd035;
-  }
+  animation: 0.5s floaty infinite;
 }
 
 @keyframes floaty {
