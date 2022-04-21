@@ -2,14 +2,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100vw;
+  width: 98vw;
   height: 10%;
-  background-color: white;
+  background-color: rgba(3, 123, 73, 0.611);
   z-index: 2;
   box-sizing: border-box;
-  border: 3px solid black;
+  border-radius: 10px;
+  margin: 2px;
 }
 
 .NavHeader p {
+  color: white;
   font-size: 28px;
 }
