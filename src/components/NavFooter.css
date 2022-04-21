@@ -1,12 +1,18 @@
 .NavFooter {
-  width: 100vw;
+  width: 98vw;
   height: 15%;
   box-sizing: border-box;
-  border: 3px solid black;
+  border-radius: 10px;
+  margin: 2px;
+  background-color: rgba(3, 123, 73, 0.611);
+}
+
+.NavFooter p {
+  color: white;
 }
 
 .NavFooter .material-icons {
-  color: rgb(39, 39, 39);
+  color: rgb(255, 255, 255);
 }
 
 .NavFooter .nav-container {

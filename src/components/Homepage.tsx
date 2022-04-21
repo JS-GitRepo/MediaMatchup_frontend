@@ -127,15 +127,23 @@ const Homepage = () => {
     return { media1, media2 };
   };
 
-  const generateMultipleMatchups = async (
-    quantity: number
-  ): Promise<Matchup[]> => {
-    let matchupArray: Matchup[] = [];
+  // const generateMultipleMatchups = async (
+  //   quantity: number
+  // ): Promise<Matchup[]> => {
+  //   let matchupArray: Matchup[] = [];
+  //   for (let i = 0; i < quantity; i++) {
+  //     const matchup = await generateMatchup();
+  //     matchupArray.push(matchup);
+  //   }
+  //   return matchupArray;
+  // };
+
+  const generateMultipleMatchups = (quantity: number): Promise<Matchup[]> => {
+    let matchupArray: Promise<Matchup>[] = [];
     for (let i = 0; i < quantity; i++) {
-      const matchup = await generateMatchup();
-      matchupArray.push(matchup);
+      matchupArray.push(generateMatchup());
     }
-    return matchupArray;
+    return Promise.all(matchupArray);
   };
 
   // >>>>>>>>>>>>>>>>>>>>> 'CHECK AND SET' FUNCTIONS <<<<<<<<<<<<<<<<<<<<<
