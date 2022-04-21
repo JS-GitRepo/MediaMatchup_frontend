@@ -130,10 +130,6 @@
 }
 
 /* - - - - Hover States - - - - - */
-.MatchupCard .daily-header p:hover {
-  background-color: black;
-  cursor: pointer;
-}
 
 .nav-chevron:hover {
   cursor: pointer;
@@ -251,5 +247,10 @@
     width: 100%;
     flex: 1;
     z-index: 1;
+  }
+
+  .MatchupCard .daily-header p:hover {
+    background-color: black;
+    cursor: pointer;
   }
 }
