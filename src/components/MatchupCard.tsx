@@ -145,7 +145,6 @@ const MatchupCard = ({
 
   useEffect(() => {
     setImagesAreLoaded(false);
-    console.log(imagesAreLoaded);
     if (!isInitialRender) {
       setLoadingImages([
         matchup.media1.artImg!,
@@ -156,7 +155,6 @@ const MatchupCard = ({
       checkAndSetDailyIndex();
       constructMedia();
     }
-    console.log(imagesAreLoaded);
   }, [matchup]);
 
   useEffect(() => {}, [imagesAreLoaded]);
