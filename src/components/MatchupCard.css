@@ -4,10 +4,6 @@
   padding: 0px;
 }
 
-body {
-  font-family: "Bangers", cursive;
-}
-
 /* SPECIFICS */
 .MatchupCard {
   display: flex;
@@ -18,12 +14,24 @@ body {
 }
 
 .MatchupCard p {
-  color: white;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
 }
 
 .MatchupCard .daily-header {
   display: flex;
-  top: 10%;
+  top: 8%;
+  width: 100vw;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+.MatchupCard .generate-matchup {
+  display: flex;
+  bottom: 10%;
   width: 100vw;
   position: absolute;
   align-items: center;
@@ -31,10 +39,20 @@ body {
   z-index: 2;
 }
 
+.MatchupCard .generate-matchup p {
+  padding: 10px 20px;
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 15px;
+}
+
 .MatchupCard .daily-header p {
   padding: 10px 20px;
   border: 2px solid rgb(255, 255, 255);
   border-radius: 30px;
+}
+
+.MatchupCard .hide {
+  display: none;
 }
 
 .MatchupCard .vs {
@@ -111,6 +129,8 @@ body {
   z-index: 1;
 }
 
+/* >>>>>>>>>>>>>>>>>>>> Animations <<<<<<<<<<<<<<<<<<<<*/
+/* - - - - - - Winner Animation - - - - - - */
 .MatchupCard .test1 {
   transform: translateX(-33vh);
   transition: 0.5s;
@@ -132,9 +152,9 @@ body {
   color: #fff;
   position: absolute;
   top: 35%;
-  left: 13.5%;
+  left: 15%;
   z-index: 3;
-  font-size: 115px;
+  font-size: 75px;
   transform: translateY(50vh);
 
   animation: flicker 0.51s ease-in-out infinite alternate, 0.5s floaty infinite;
@@ -145,9 +165,9 @@ body {
   color: #fff;
   position: absolute;
   top: 35%;
-  left: 63.5%;
+  left: 65%;
   z-index: 3;
-  font-size: 115px;
+  font-size: 70px;
   transform: translateY(50vh);
 
   animation: flicker 0.51s ease-in-out infinite alternate, 0.5s floaty infinite;
@@ -195,7 +215,7 @@ body {
   .MatchupCard .main-img {
     min-width: 450px;
     min-height: 450px;
-    object-fit: cover;
+    object-fit: fill;
   }
 
   .MatchupCard .bg-img {
@@ -219,5 +239,15 @@ body {
     justify-content: center;
     align-items: center;
     top: 30%;
+    height: 100vh;
+    width: 100%;
+    flex: 3;
+    z-index: 1;
+  }
+
+  .MatchupCard .text-subcontainer {
+    width: 100%;
+    flex: 1;
+    z-index: 1;
   }
 }

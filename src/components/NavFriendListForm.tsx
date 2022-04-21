@@ -92,6 +92,7 @@ const NavFriendListForm = () => {
           </p>
 
           <div className="nav-friends-list">
+            <h2>Your Friends</h2>
             <ul>
               {friends.map((friend, i) => {
                 return (

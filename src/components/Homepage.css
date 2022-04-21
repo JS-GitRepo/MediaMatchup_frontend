@@ -24,8 +24,6 @@
 }
 
 .Homepage .homepage-buttons-container {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -40,12 +38,20 @@
   padding: 5px;
 }
 
-.Homepage .fa-angle-up {
+/* >>>>>>>>>>>>>>>>>> Animations <<<<<<<<<<<<<<<<<< */
+/* .Homepage .fa-angle-up {
   color: white;
   font-size: 100px;
   text-decoration: none;
-  transform: scale(5.25, 0.8);
+  transform: scale(4.5, 0.8);
   opacity: 0.4;
+} */
+
+.Homepage .nav-chevron {
+  bottom: 10%;
+  width: 90%;
+  text-decoration: none;
+  opacity: 0.9;
 }
 
 .Homepage.test {
