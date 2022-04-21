@@ -20,13 +20,28 @@ import { getUserById, updateUserDailiesByID } from "../services/UserService";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 import StatsCard from "./StatsCard";
+import chevron from "../images/wide_chevron.png";
 
 const Homepage = () => {
+  const defaultMatchup: Matchup = {
+    media1: {
+      title: "",
+      subtitle: "",
+      artImg: "",
+      category: "",
+    },
+    media2: {
+      title: "",
+      subtitle: "",
+      artImg: "",
+      category: "",
+    },
+  };
   const [dailyMatchups, setDailyMatchups] = useState<Matchup[]>([]);
   const [dailyIsComplete, setDailyIsComplete] = useState<Boolean>(false);
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
-  const [matchup, setMatchup] = useState<Matchup>();
+  const [matchup, setMatchup] = useState<Matchup>(defaultMatchup);
   const [navAnimation, setNavAnimation] = useState(false);
   const navigation = useNavigate();
 
@@ -56,7 +71,7 @@ const Homepage = () => {
   };
 
   const generateMedia = async (selection: number): Promise<MediaItem> => {
-    return getMediaArray[selection]();
+    return await getMediaArray[selection]();
   };
 
   const generateMatchup = async (): Promise<Matchup> => {
@@ -101,9 +116,9 @@ const Homepage = () => {
       media2 = await generateMedia(randSelection2);
     }
     const endTime = Date.now() - startTime;
-    console.log(
-      `The 'generateMatchup' function took ${endTime} ms to complete.`
-    );
+    // console.log(
+    //   `The 'generateMatchup' function took ${endTime} ms to complete.`
+    // );
     // console.log(media1, media2);
     // setMatchup({
     //   media1,
@@ -127,9 +142,9 @@ const Homepage = () => {
   const checkAndSetBufferedMatchups = async (): Promise<void> => {
     let tempBuffer = bufferedMatchups;
     let bufferLength = tempBuffer.length;
-    console.log(
-      `There are ${bufferLength} items in the buffer when generation started.`
-    );
+    // console.log(
+    //   `There are ${bufferLength} items in the buffer when generation started.`
+    // );
     if (bufferLength < 3) {
       let initialMatchup = await generateMatchup();
       setMatchup(initialMatchup);
@@ -238,11 +253,15 @@ const Homepage = () => {
       console.log(updatesObj);
       await updateUserDailiesByID(user!.uid as string, updatesObj);
     }
-    console.log("Daily Matchups Status: ", dailyMatchups);
+    // console.log("Daily Matchups Status: ", dailyMatchups);
     checkAndSetMatchups();
   };
   const matchupCardJSX = (
-    <MatchupCard matchup={matchup} onSubmitMatchup={submitUserMatchupHandler} />
+    <MatchupCard
+      matchup={matchup}
+      onSubmitMatchup={submitUserMatchupHandler}
+      checkAndSetMatchups={checkAndSetMatchups}
+    />
   );
   const statsCardJSX = <StatsCard />;
   const [cardType, setCardType] = useState<JSX.Element>(matchupCardJSX);
@@ -278,11 +297,16 @@ const Homepage = () => {
         <div>
           {matchupCardJSX}
           <div className="homepage-buttons-container">
-            <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button>
-            <i
+            {/* <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button> */}
+            {/* <i
               onClick={() => testFunction()}
-              className="fa-solid fa-angle-up"
-            ></i>
+              className="fa-solid fa-angle-up"></i> */}
+            <img
+              className="nav-chevron"
+              onClick={() => testFunction()}
+              src={chevron}
+              alt="navigation icon"
+            />
           </div>
         </div>
       ) : (

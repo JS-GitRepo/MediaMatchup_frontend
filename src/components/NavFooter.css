@@ -5,9 +5,30 @@
   border: 3px solid black;
 }
 
+.NavFooter .material-icons {
+  color: rgb(39, 39, 39);
+}
+
 .NavFooter .nav-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.NavFooter .nav-container p {
+  position: relative;
+  font-size: 22px;
+}
+
+.NavFooter .right-nav {
+  position: absolute;
+  right: -25px;
+  bottom: -4px;
+}
+
+.NavFooter .left-nav {
+  position: absolute;
+  left: -25px;
+  bottom: -4px;
 }

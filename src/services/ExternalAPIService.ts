@@ -101,10 +101,10 @@ export const getArtpiece = (): Promise<MediaItem> => {
     "Kawanabe Kyosai",
   ];
   let randArtistNum = Math.floor(Math.random() * (artistArray.length + 1));
-  console.log(
-    `Artpiece ArtistNum:` + randArtistNum,
-    `ResultNum:` + randResultNum
-  );
+  // console.log(
+  //   `Artpiece ArtistNum:` + randArtistNum,
+  //   `ResultNum:` + randResultNum
+  // );
   let paramsObj = {
     q: artistArray[randArtistNum],
     fields: "id, title, image_id, artist_title, date_end",
@@ -142,10 +142,10 @@ export const getArtpiece = (): Promise<MediaItem> => {
 export const getAlbum = (): Promise<MediaItem> => {
   let randPageNum = Math.floor(Math.random() * 9) + 1;
   let randResultNum = Math.floor(Math.random() * 50);
-  console.log(
-    `getAlbum PageNum: ` + randPageNum,
-    `ResultNum: ` + randResultNum
-  );
+  // console.log(
+  //   `getAlbum PageNum: ` + randPageNum,
+  //   `ResultNum: ` + randResultNum
+  // );
   let paramsObj = {
     api_key: lastFMKey as string,
     method: "chart.gettopartists",
@@ -215,11 +215,16 @@ export const getVideoGame = (): Promise<MediaItem> => {
         })
         .then((response) => {
           let selection: any = response.data;
+          let imagePrefix = "https://media.rawg.io/media";
+          let imageTailURL = selection.background_image.split(imagePrefix)[1];
+          let image2TailURL =
+            selection.background_image_additional.split(imagePrefix)[1];
+          // console.log(image2TailURL);
           const videoGame: MediaItem = {
             title: selection.name,
             subtitle: selection.released,
-            artImg: selection.background_image,
-            artImg2: selection.background_image_additional,
+            artImg: `${imagePrefix}/resize/640/-${imageTailURL}`,
+            artImg2: `${imagePrefix}/resize/640/-${image2TailURL}`,
             category: "Video Game",
             nativeId: selection.id,
             winner: false,

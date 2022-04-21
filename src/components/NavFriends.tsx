@@ -15,7 +15,7 @@ const NavFriends = () => {
   );
 
   useEffect(() => {
-    console.log("Location Pathname Changed To: ", pathNameEnding);
+    // console.log("Location Pathname Changed To: ", pathNameEnding);
     if (pathNameEnding != "friends" && pathNameEnding != "myfeed") {
       setDisplayJSX(friendFeedByUID);
     } else if (pathNameEnding === "friends") {

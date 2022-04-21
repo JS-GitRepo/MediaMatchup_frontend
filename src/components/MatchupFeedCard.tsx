@@ -47,8 +47,8 @@ const MatchupFeedCard = ({ matchup }: Props) => {
         </div>
         <div className="text-subcontainer">
           <p className="media1-title">{matchup?.media1.title}</p>
-          <p className="media1-subtitle">{subtitle1}</p>
-          <p className="media1-category">{`(${matchup?.media1.category})`}</p>
+          {/* <p className="media1-subtitle">{subtitle1}</p>
+          <p className="media1-category">{`(${matchup?.media1.category})`}</p> */}
         </div>
         <img
           className="media1-bg-img bg-img"
@@ -67,8 +67,8 @@ const MatchupFeedCard = ({ matchup }: Props) => {
         </div>
         <div className="text-subcontainer">
           <p className="media2-title">{matchup?.media2.title}</p>
-          <p className="media2-subtitle">{subtitle2}</p>
-          <p className="media2-category">{`(${matchup?.media2.category})`}</p>
+          {/* <p className="media2-subtitle">{subtitle2}</p>
+          <p className="media2-category">{`(${matchup?.media2.category})`}</p> */}
         </div>
         <img
           className="media2-bg-img bg-img"

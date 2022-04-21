@@ -18,12 +18,16 @@
 }
 
 .MatchupFeedCard p {
+  font-family: "Lucida Console";
+  font-weight: 400;
   color: white;
   font-size: 12px;
 }
 
 .MatchupFeedCard .vs {
-  font-size: 26px;
+  font-family: "Bangers";
+  font-weight: 400;
+  font-size: 34px;
   position: absolute;
   text-align: center;
   width: 50px;
@@ -95,11 +99,13 @@
   justify-content: center;
   flex-direction: column;
   flex: 3;
-  width: 100%;
+  width: 95%;
   margin-top: 10px;
 }
 
 .MatchupFeedCard .winner {
-  border: 5px dashed rgb(255, 228, 90);
+  /* border: 5px dashed rgb(255, 228, 90); */
+  box-shadow: 0px 0px 18px 11px rgb(254, 242, 69);
+  animation: blink 0.7s infinite alternate;
   margin: 0px 0px -5px 0px;
 }
