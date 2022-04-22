@@ -113,9 +113,8 @@ const MatchupCard = ({
   };
 
   const imageLoaded = () => {
-    console.log(loadingImages.length);
     imageLoadedCounter.current += 1;
-    if (imageLoadedCounter.current >= loadingImages.length) {
+    if (imageLoadedCounter.current >= 2) {
       setImagesAreLoaded(true);
     }
   };
@@ -130,6 +129,50 @@ const MatchupCard = ({
       navigation("/nav/myfeed");
     }, 400);
   };
+
+  useEffect(() => {
+    setIsInitialRender(false);
+  }, []);
+
+  useEffect(() => {
+    imageLoadedCounter.current = 0;
+    setImagesAreLoaded(false);
+    setMatchupDefined(false);
+    setLoadingImages([
+      matchup.media1.artImg!,
+      matchup.media2.artImg!,
+      matchup.media1.artImg2!,
+      matchup.media2.artImg2!,
+    ]);
+    checkAndSetDailyIndex();
+    constructMedia();
+    if (
+      !title1 ||
+      !title2 ||
+      !subtitle1 ||
+      !subtitle2 ||
+      !mainImg1 ||
+      !mainImg2 ||
+      !bgImg1 ||
+      !bgImg2 ||
+      !mediaCategory1 ||
+      !mediaCategory2
+    ) {
+      setMatchupDefined(false);
+    }
+    if (!isInitialRender) {
+      console.log(imageLoadedCounter);
+      console.log(imagesAreLoaded);
+    }
+  }, [matchup]);
+
+  useEffect(() => {
+    if (bgImg1 && bgImg2) {
+      setMatchupDefined(true);
+    }
+  }, [bgImg1, bgImg2]);
+
+  useEffect(() => {}, [imagesAreLoaded]);
 
   let dailyHeaderJSX = <div></div>;
   if (dailyIndex <= 9 && dailyIndex >= 0) {
@@ -147,47 +190,6 @@ const MatchupCard = ({
   } else {
     <div></div>;
   }
-
-  useEffect(() => {
-    setIsInitialRender(false);
-  }, []);
-
-  useEffect(() => {
-    setImagesAreLoaded(false);
-    setMatchupDefined(false);
-    if (
-      !title1 ||
-      !title2 ||
-      !subtitle1 ||
-      !subtitle2 ||
-      !mainImg1 ||
-      !mainImg2 ||
-      !bgImg1 ||
-      !bgImg2 ||
-      !mediaCategory1 ||
-      !mediaCategory2
-    ) {
-      setMatchupDefined(false);
-    }
-    if (!isInitialRender) {
-      setLoadingImages([
-        matchup.media1.artImg!,
-        matchup.media2.artImg!,
-        matchup.media1.artImg2!,
-        matchup.media2.artImg2!,
-      ]);
-      checkAndSetDailyIndex();
-      constructMedia();
-    }
-  }, [matchup]);
-
-  useEffect(() => {
-    if (bgImg1 && bgImg2) {
-      setMatchupDefined(true);
-    }
-  }, [bgImg1, bgImg2]);
-
-  useEffect(() => {}, [imagesAreLoaded]);
 
   return (
     <div>
@@ -247,7 +249,7 @@ const MatchupCard = ({
               className={`media1-bg-img bg-img`}
               src={imagesAreLoaded ? bgImg1 : ""}
               alt={`Background Image 1: ${title1}`}
-              onLoad={imageLoaded}
+              // onLoad={imageLoaded}
             />
           </div>
 
@@ -282,7 +284,7 @@ const MatchupCard = ({
               className={`media2-bg-img bg-img`}
               src={imagesAreLoaded ? bgImg2 : ""}
               alt={`Background Image 2: ${title2}`}
-              onLoad={imageLoaded}
+              // onLoad={imageLoaded}
             />
           </div>
           <div className="nav-menu">
