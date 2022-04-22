@@ -20,7 +20,6 @@ import { getUserById, updateUserDailiesByID } from "../services/UserService";
 import "./Homepage.css";
 import MatchupCard from "./MatchupCard";
 import StatsCard from "./StatsCard";
-import chevron from "../images/wide_chevron.png";
 
 const Homepage = () => {
   const defaultMatchup: Matchup = {
@@ -42,8 +41,6 @@ const Homepage = () => {
   const [bufferedMatchups, setBufferedMatchups] = useState<Matchup[]>([]);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
   const [matchup, setMatchup] = useState<Matchup>(defaultMatchup);
-  const [navAnimation, setNavAnimation] = useState(false);
-  const navigation = useNavigate();
   const bgImgURL =
     "https://apollo.imgix.net/content/uploads/2018/02/LEADPablo-Picasso-Femme-au-beret-et-a-la-robe-quadrillee-Marie-Therese-Walter-December-1937.jpg?auto=compress,format&crop=faces,entropy,edges&fit=crop&w=900&h=600";
 
@@ -276,13 +273,6 @@ const Homepage = () => {
   const statsCardJSX = <StatsCard />;
   const [cardType, setCardType] = useState<JSX.Element>(matchupCardJSX);
 
-  const testFunction = () => {
-    setNavAnimation(true);
-    setTimeout(() => {
-      navigation("/nav/myfeed");
-    }, 750);
-  };
-
   useEffect(() => {
     setCardType(matchupCardJSX);
     setIsInitialRender(false);
@@ -302,23 +292,9 @@ const Homepage = () => {
   }, [matchup]);
 
   return (
-    <div className={`Homepage${navAnimation ? " test" : ""}`}>
+    <div className={`Homepage`}>
       {user ? (
-        <div>
-          {matchupCardJSX}
-          <div className="homepage-buttons-container">
-            {/* <button onClick={checkAndSetMatchups}>GENERATE NEW MATCHUP</button> */}
-            {/* <i
-              onClick={() => testFunction()}
-              className="fa-solid fa-angle-up"></i> */}
-            <img
-              className="nav-chevron"
-              onClick={() => testFunction()}
-              src={chevron}
-              alt="navigation icon"
-            />
-          </div>
-        </div>
+        <div>{matchupCardJSX}</div>
       ) : (
         <div className="sign-in-container">
           <p onClick={signInWithGoogle}>Sign In With Google</p>

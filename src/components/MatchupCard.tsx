@@ -3,6 +3,9 @@ import Matchup from "../models/Matchup";
 import MediaItem from "../models/MediaItem";
 import "./MatchupCard.css";
 import loading from "../images/loading.svg";
+import "./MatchupCardLoading.css";
+import chevron from "../images/wide_chevron.png";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   matchup: Matchup;
@@ -16,31 +19,34 @@ const MatchupCard = ({
   checkAndSetMatchups,
 }: Props) => {
   // Animation useStates
-  const [media1Animation, setMedia1Animation] = useState(false);
-  const [media2Animation, setMedia2Animation] = useState(false);
-  const [crown1Animation, setCrown1Animation] = useState(false);
-  const [crown2Animation, setCrown2Animation] = useState(false);
-  // useStates for Matchup and associated Media
-  const [isInitialRender, setIsInitialRender] = useState(true);
+  const [media1Animation, setMedia1Animation] = useState<boolean>(false);
+  const [media2Animation, setMedia2Animation] = useState<boolean>(false);
+  const [crown1Animation, setCrown1Animation] = useState<boolean>(false);
+  const [crown2Animation, setCrown2Animation] = useState<boolean>(false);
+  const [navAnimation, setNavAnimation] = useState<boolean>(false);
+  // General matchup funcionality use states
+  const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
+  const [matchupDefined, setMatchupDefined] = useState<boolean>(false);
   const [showGenerateButton, setShowGenerateButton] = useState(true);
   const [dailyIndex, setDailyIndex] = useState<number>(-1);
-  const [mediaIsDefined, setMediaIsDefined] = useState<boolean>(false);
   const mediaDefinedCounter = useRef(0);
-  //  useStates for media / matchup variable construction
+  //  Media and Matchup variable construction useStates
   const [title1, setTitle1] = useState<string>();
   const [title2, setTitle2] = useState<string>();
   const [subtitle1, setSubtitle1] = useState<string>();
   const [subtitle2, setSubtitle2] = useState<string>();
   const [mainImg1, setMainImg1] = useState<string>();
   const [mainImg2, setMainImg2] = useState<string>();
-  const [backgroundImg1, setBackgroundImg1] = useState<string>();
-  const [backgroundImg2, setBackgroundImg2] = useState<string>();
+  const [bgImg1, setbgImg1] = useState<string>();
+  const [bgImg2, setbgImg2] = useState<string>();
   const [mediaCategory1, setMediaCategory1] = useState<string>();
   const [mediaCategory2, setMediaCategory2] = useState<string>();
   // Wait for all images to load before showing them
   const [loadingImages, setLoadingImages] = useState<string[]>([]);
   const [imagesAreLoaded, setImagesAreLoaded] = useState<boolean>(false);
+  const [triggerRefreshMsg, setTriggerRefreshMsg] = useState<boolean>(false);
   const imageLoadedCounter = useRef(0);
+  const navigation = useNavigate();
 
   const constructMedia = async () => {
     setTitle1(matchup.media1.title);
@@ -51,10 +57,10 @@ const MatchupCard = ({
     setMediaCategory2(matchup.media2.category);
     setMainImg1(matchup.media1.artImg);
     setMainImg2(matchup.media2.artImg);
-    setBackgroundImg1(
+    setbgImg1(
       matchup.media1.artImg2 ? matchup.media1.artImg2 : matchup.media1.artImg
     );
-    setBackgroundImg2(
+    setbgImg2(
       matchup.media2.artImg2 ? matchup.media2.artImg2 : matchup.media2.artImg
     );
     if (
@@ -114,12 +120,15 @@ const MatchupCard = ({
     }
   };
 
-  const mediaDefined = () => {
-    console.log(loadingImages.length);
-    imageLoadedCounter.current += 1;
-    if (imageLoadedCounter.current >= loadingImages.length) {
-      setMediaIsDefined(true);
-    }
+  const loadingRefreshPrompt = () => {
+    setTimeout(() => setTriggerRefreshMsg(true), 6000);
+  };
+
+  const navMenuTransition = () => {
+    setNavAnimation(true);
+    setTimeout(() => {
+      navigation("/nav/myfeed");
+    }, 400);
   };
 
   let dailyHeaderJSX = <div></div>;
@@ -145,6 +154,21 @@ const MatchupCard = ({
 
   useEffect(() => {
     setImagesAreLoaded(false);
+    setMatchupDefined(false);
+    if (
+      !title1 ||
+      !title2 ||
+      !subtitle1 ||
+      !subtitle2 ||
+      !mainImg1 ||
+      !mainImg2 ||
+      !bgImg1 ||
+      !bgImg2 ||
+      !mediaCategory1 ||
+      !mediaCategory2
+    ) {
+      setMatchupDefined(false);
+    }
     if (!isInitialRender) {
       setLoadingImages([
         matchup.media1.artImg!,
@@ -157,81 +181,120 @@ const MatchupCard = ({
     }
   }, [matchup]);
 
+  useEffect(() => {
+    if (bgImg1 && bgImg2) {
+      setMatchupDefined(true);
+    }
+  }, [bgImg1, bgImg2]);
+
   useEffect(() => {}, [imagesAreLoaded]);
 
   return (
-    <div className="MatchupCard">
-      {dailyHeaderJSX}
-
-      {showGenerateButton ? (
-        <div onClick={checkAndSetMatchups} className="daily-header">
-          <p>{`Generate New Matchup`}</p>
+    <div>
+      {!matchupDefined ? (
+        <div className="MatchupCardLoading">
+          <p className="loading-text">loading . . .</p>
+          <img
+            className="loading-defined-matchup"
+            src={loading}
+            alt="Loading Media Matchup"
+            onLoad={() => loadingRefreshPrompt()}
+          />
+          {triggerRefreshMsg ? (
+            <p className="loading-refresh">( Try Refreshing )</p>
+          ) : (
+            <div></div>
+          )}
         </div>
       ) : (
-        <div></div>
+        <div className={`MatchupCard ${navAnimation ? "nav-animation" : ""}`}>
+          {dailyHeaderJSX}
+
+          {showGenerateButton ? (
+            <div onClick={checkAndSetMatchups} className="daily-header">
+              <p>{`Generate New Matchup`}</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
+
+          {/* - - - - - Background "winner crown" animation behind each media item - - - - - */}
+          <i
+            className={`fa-solid fa-crown${
+              crown1Animation ? " crownAnimation1" : ""
+            }`}></i>
+
+          {/* - - - - - Media 1 Container - - - - - */}
+          <div
+            className={`media1-container${media1Animation ? " test1" : ""}`}
+            onClick={() =>
+              winnerAnimation(1, matchup?.media1!, matchup?.dailyMatchupsIndex)
+            }>
+            <div className="image-subcontainer">
+              <img
+                className={`media1-main-img main-img`}
+                src={imagesAreLoaded ? mainImg1 : loading}
+                alt={`Main Image 1: ${title1}`}
+                onLoad={imageLoaded}
+              />
+            </div>
+            <div className={`text-subcontainer`}>
+              <p className="media1-title">{title1}</p>
+              <p className="media1-subtitle">{subtitle1}</p>
+              <p className="media1-category">{`(${mediaCategory1})`}</p>
+            </div>
+            <img
+              className={`media1-bg-img bg-img`}
+              src={imagesAreLoaded ? bgImg1 : ""}
+              alt={`Background Image 1: ${title1}`}
+              onLoad={imageLoaded}
+            />
+          </div>
+
+          <p className="vs">VS</p>
+
+          {/* - - - - - Background "winner crown" animation behind each media item - - - - - */}
+          <i
+            className={`fa-solid fa-crown${
+              crown2Animation ? " crownAnimation2" : ""
+            }`}></i>
+
+          {/* - - - - - Media 2 Container - - - - - */}
+          <div
+            className={`media2-container${media2Animation ? " test2" : ""}`}
+            onClick={() =>
+              winnerAnimation(2, matchup?.media2!, matchup?.dailyMatchupsIndex)
+            }>
+            <div className="image-subcontainer">
+              <img
+                className={`media2-main-img main-img`}
+                src={imagesAreLoaded ? mainImg2 : loading}
+                alt={`Main Image 2: ${mainImg2}`}
+                onLoad={imageLoaded}
+              />
+            </div>
+            <div className="text-subcontainer">
+              <p className="media2-title">{title2}</p>
+              <p className="media2-subtitle">{subtitle2}</p>
+              <p className="media2-category">{`(${mediaCategory2})`}</p>
+            </div>
+            <img
+              className={`media2-bg-img bg-img`}
+              src={imagesAreLoaded ? bgImg2 : ""}
+              alt={`Background Image 2: ${title2}`}
+              onLoad={imageLoaded}
+            />
+          </div>
+          <div className="nav-menu">
+            <img
+              className="nav-chevron"
+              onClick={() => navMenuTransition()}
+              src={chevron}
+              alt="navigation icon"
+            />
+          </div>
+        </div>
       )}
-
-      <i
-        className={`fa-solid fa-crown${
-          crown1Animation ? " crownAnimation1" : ""
-        }`}></i>
-      <div
-        className={`media1-container${media1Animation ? " test1" : ""}`}
-        onClick={() =>
-          winnerAnimation(1, matchup?.media1!, matchup?.dailyMatchupsIndex)
-        }>
-        <div className="image-subcontainer">
-          <img
-            className={`media1-main-img main-img`}
-            src={imagesAreLoaded ? mainImg1 : loading}
-            alt={`Main Image 1: ${title1}`}
-            onLoad={imageLoaded}
-          />
-        </div>
-
-        <div className={`text-subcontainer`}>
-          <p className="media1-title">{title1}</p>
-          <p className="media1-subtitle">{subtitle1}</p>
-          <p className="media1-category">{`(${mediaCategory1})`}</p>
-        </div>
-
-        <img
-          className={`media1-bg-img bg-img`}
-          src={imagesAreLoaded ? backgroundImg1 : ""}
-          alt={`Background Image 1: ${title1}`}
-          onLoad={imageLoaded}
-        />
-      </div>
-      <p className="vs">VS</p>
-      <i
-        className={`fa-solid fa-crown${
-          crown2Animation ? " crownAnimation2" : ""
-        }`}></i>
-      <div
-        className={`media2-container${media2Animation ? " test2" : ""}`}
-        onClick={() =>
-          winnerAnimation(2, matchup?.media2!, matchup?.dailyMatchupsIndex)
-        }>
-        <div className="image-subcontainer">
-          <img
-            className={`media2-main-img main-img`}
-            src={imagesAreLoaded ? mainImg2 : loading}
-            alt={`Main Image 2: ${mainImg2}`}
-            onLoad={imageLoaded}
-          />
-        </div>
-        <div className="text-subcontainer">
-          <p className="media2-title">{title2}</p>
-          <p className="media2-subtitle">{subtitle2}</p>
-          <p className="media2-category">{`(${mediaCategory2})`}</p>
-        </div>
-        <img
-          className={`media2-bg-img bg-img`}
-          src={imagesAreLoaded ? backgroundImg2 : ""}
-          alt={`Background Image 2: ${title2}`}
-          onLoad={imageLoaded}
-        />
-      </div>
     </div>
   );
 };
