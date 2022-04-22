@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
   background-color: #000;
@@ -71,18 +70,6 @@
   transform: scale(4.5, 0.8);
   opacity: 0.4;
 } */
-
-.Homepage .nav-chevron {
-  bottom: 10%;
-  width: 90%;
-  text-decoration: none;
-  opacity: 0.9;
-}
-
-.Homepage.test {
-  transform: translateY(-100vh);
-  transition: 1s;
-}
 
 /* >>>>>>>>>>>>>>>>>> Media Queries <<<<<<<<<<<<<<<<<< */
 @media only screen and (min-width: 768px) {
