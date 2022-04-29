@@ -5,19 +5,8 @@
 }
 
 /* SPECIFICS */
-.MatchupCard {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  width: 100%;
-  height: 100vh;
-}
 
-/* .MatchupCard p {
-  color: rgb(255, 255, 255);
-  font-size: 20px;
-} */
-
+/* - - - - - MatchupCardLoading - - - - - */
 .MatchupCardLoading {
   background: fixed;
   background-image: "https://preview.redd.it/4lnrk3trjxvy.jpg?auto=webp&s=65732ccd0992036612ff9121699d6a57e361da04";
@@ -37,6 +26,15 @@
   font-family: "Courier New", Courier, monospace;
   margin-top: -3%;
   font-weight: 400;
+}
+
+/* - - - - - MatchupCard General - - - - - */
+.MatchupCard {
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
 }
 
 .MatchupCard .daily-header {
@@ -89,6 +87,7 @@
     -2px -2px 0 #000;
 }
 
+/* - - - - - MatchupCard Media Containers - - - - - */
 .MatchupCard .media1-container {
   display: flex;
   flex-direction: column;
@@ -109,7 +108,16 @@
   max-width: 100%;
 }
 
-/* TODO: SCALING OFF WINDOW SIZE PERCENTAGE */
+.MatchupCard .image-subcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  flex: 4;
+  width: 100%;
+  z-index: 1;
+}
+
 .MatchupCard .main-img {
   width: 90%;
   height: 55%;
@@ -134,22 +142,18 @@
   filter: hue-rotate(15deg) brightness(50%) contrast(110%) blur(4px);
 }
 
-.MatchupCard .image-subcontainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: center;
-  flex: 4;
-  width: 100%;
-  z-index: 1;
-}
-
 .MatchupCard .text-subcontainer {
   flex: 3;
-  width: 100%;
+  width: 90%;
   z-index: 1;
+  font-size: 15px;
 }
 
+.MatchupCard .media-title {
+  font-size: 22px;
+}
+
+/* - - - - - MatchupCard Navigation Link - - - - - */
 .MatchupCard .nav-menu {
   position: absolute;
   bottom: 3%;

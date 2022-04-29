@@ -95,7 +95,7 @@ const MatchupCard = ({
       setCrown2Animation(true);
       setTimeout(() => setCrown2Animation(false), 500);
     }
-    setTimeout(() => onSubmitMatchup(winner, dailyMatchupIndex), 120);
+    setTimeout(() => onSubmitMatchup(winner, dailyMatchupIndex), 150);
   };
 
   const checkAndSetDailyIndex = () => {
@@ -241,9 +241,9 @@ const MatchupCard = ({
               />
             </div>
             <div className={`text-subcontainer`}>
-              <p className="media1-title">{title1}</p>
-              <p className="media1-subtitle">{subtitle1}</p>
-              <p className="media1-category">{`(${mediaCategory1})`}</p>
+              <p className="media-title">{title1}</p>
+              <p className="media-subtitle">{subtitle1}</p>
+              <p className="media-category">{`( ${mediaCategory1} )`}</p>
             </div>
             <img
               className={`media1-bg-img bg-img`}
@@ -276,9 +276,9 @@ const MatchupCard = ({
               />
             </div>
             <div className="text-subcontainer">
-              <p className="media2-title">{title2}</p>
-              <p className="media2-subtitle">{subtitle2}</p>
-              <p className="media2-category">{`(${mediaCategory2})`}</p>
+              <p className="media-title">{title2}</p>
+              <p className="media-subtitle">{subtitle2}</p>
+              <p className="media-category">{`( ${mediaCategory2} )`}</p>
             </div>
             <img
               className={`media2-bg-img bg-img`}

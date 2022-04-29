@@ -14,7 +14,7 @@ const NavFriendListForm = () => {
   const [friendEmail, setFriendEmail] = useState<string>();
   const [friendStatusMsg, setFriendStatusMsg] = useState<string>("");
   const [statusIsGreen, setStatusIsGreen] = useState<boolean>(true);
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<any[]>([]);
   const { user } = useContext(SocialContext);
   const formRef = useRef<HTMLFormElement>(null);
   const statusMsgTimeout = 5000;
