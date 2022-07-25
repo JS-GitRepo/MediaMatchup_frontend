@@ -8,17 +8,22 @@
 
 /* - - - - - MatchupCardLoading - - - - - */
 .MatchupCardLoading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: fixed;
   background-image: "https://preview.redd.it/4lnrk3trjxvy.jpg?auto=webp&s=65732ccd0992036612ff9121699d6a57e361da04";
   z-index: 10;
 }
 
 .MatchupCardLoading p {
+  margin: 0px;
   font-size: 42px;
 }
 
 .MatchupCardLoading img {
-  margin-top: -12%;
+  margin-top: -60px;
 }
 
 .MatchupCardLoading .loading-refresh {
@@ -177,14 +182,14 @@
 /* >>>>>>>>>>>>>>>>>>>> Animations <<<<<<<<<<<<<<<<<<<<*/
 
 /* - - - - - - Winner Animation - - - - - - */
-.MatchupCard .test1 {
-  transform: translateX(-33vh);
+.MatchupCard .animOut1 {
+  transform: translateX(-100vw);
   transition: 0.5s;
   z-index: 2;
 }
 
-.MatchupCard .test2 {
-  transform: translateX(33vh);
+.MatchupCard .animOut2 {
+  transform: translateX(100vw);
   transition: 0.5s;
   z-index: 2;
 }
@@ -251,6 +256,11 @@
     height: 100vh;
   }
 
+  .MatchupCard .daily-header p:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+
   .MatchupCard .main-img {
     width: 275px;
     height: 325px;
@@ -289,8 +299,16 @@
     z-index: 1;
   }
 
-  .MatchupCard .daily-header p:hover {
-    background-color: black;
-    cursor: pointer;
+  .MatchupCard .crownAnimation1 {
+    left: 20%;
+  }
+
+  .MatchupCard .crownAnimation2 {
+    left: 70%;
+  }
+
+  .MatchupCard .nav-chevron {
+    height: 25px;
+    width: 125px;
   }
 }

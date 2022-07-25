@@ -177,13 +177,13 @@ const MatchupCard = ({
   let dailyHeaderJSX = <div></div>;
   if (dailyIndex <= 9 && dailyIndex >= 0) {
     dailyHeaderJSX = (
-      <div className="daily-header">
+      <div className='daily-header'>
         <p>{`Daily Matchup: ${dailyIndex + 1}`}</p>
       </div>
     );
   } else if (dailyIndex > 9 && dailyIndex < 13) {
     dailyHeaderJSX = (
-      <div className="daily-header">
+      <div className='daily-header'>
         <p>{`Daily Matchups Complete!`}</p>
       </div>
     );
@@ -194,16 +194,16 @@ const MatchupCard = ({
   return (
     <div>
       {!matchupDefined ? (
-        <div className="MatchupCardLoading">
-          <p className="loading-text">loading . . .</p>
+        <div className='MatchupCardLoading'>
+          <p className='loading-text'>loading . . .</p>
           <img
-            className="loading-defined-matchup"
+            className='loading-defined-matchup'
             src={loading}
-            alt="Loading Media Matchup"
+            alt='Loading Media Matchup'
             onLoad={() => loadingRefreshPrompt()}
           />
           {triggerRefreshMsg ? (
-            <p className="loading-refresh">( Try Refreshing )</p>
+            <p className='loading-refresh'>( Try Refreshing )</p>
           ) : (
             <div></div>
           )}
@@ -213,7 +213,7 @@ const MatchupCard = ({
           {dailyHeaderJSX}
 
           {showGenerateButton ? (
-            <div onClick={checkAndSetMatchups} className="daily-header">
+            <div onClick={checkAndSetMatchups} className='daily-header'>
               <p>{`Generate New Matchup`}</p>
             </div>
           ) : (
@@ -228,11 +228,11 @@ const MatchupCard = ({
 
           {/* - - - - - Media 1 Container - - - - - */}
           <div
-            className={`media1-container${media1Animation ? " test1" : ""}`}
+            className={`media1-container${media1Animation ? " animOut1" : ""}`}
             onClick={() =>
               winnerAnimation(1, matchup?.media1!, matchup?.dailyMatchupsIndex)
             }>
-            <div className="image-subcontainer">
+            <div className='image-subcontainer'>
               <img
                 className={`media1-main-img main-img`}
                 src={imagesAreLoaded ? mainImg1 : loading}
@@ -241,9 +241,9 @@ const MatchupCard = ({
               />
             </div>
             <div className={`text-subcontainer`}>
-              <p className="media-title">{title1}</p>
-              <p className="media-subtitle">{subtitle1}</p>
-              <p className="media-category">{`( ${mediaCategory1} )`}</p>
+              <p className='media-title'>{title1}</p>
+              <p className='media-subtitle'>{subtitle1}</p>
+              <p className='media-category'>{`( ${mediaCategory1} )`}</p>
             </div>
             <img
               className={`media1-bg-img bg-img`}
@@ -253,7 +253,7 @@ const MatchupCard = ({
             />
           </div>
 
-          <p className="vs">VS</p>
+          <p className='vs'>VS</p>
 
           {/* - - - - - Background "winner crown" animation behind each media item - - - - - */}
           <i
@@ -263,11 +263,11 @@ const MatchupCard = ({
 
           {/* - - - - - Media 2 Container - - - - - */}
           <div
-            className={`media2-container${media2Animation ? " test2" : ""}`}
+            className={`media2-container${media2Animation ? " animOut2" : ""}`}
             onClick={() =>
               winnerAnimation(2, matchup?.media2!, matchup?.dailyMatchupsIndex)
             }>
-            <div className="image-subcontainer">
+            <div className='image-subcontainer'>
               <img
                 className={`media2-main-img main-img`}
                 src={imagesAreLoaded ? mainImg2 : loading}
@@ -275,10 +275,10 @@ const MatchupCard = ({
                 onLoad={imageLoaded}
               />
             </div>
-            <div className="text-subcontainer">
-              <p className="media-title">{title2}</p>
-              <p className="media-subtitle">{subtitle2}</p>
-              <p className="media-category">{`( ${mediaCategory2} )`}</p>
+            <div className='text-subcontainer'>
+              <p className='media-title'>{title2}</p>
+              <p className='media-subtitle'>{subtitle2}</p>
+              <p className='media-category'>{`( ${mediaCategory2} )`}</p>
             </div>
             <img
               className={`media2-bg-img bg-img`}
@@ -287,12 +287,12 @@ const MatchupCard = ({
               // onLoad={imageLoaded}
             />
           </div>
-          <div className="nav-menu">
+          <div className='nav-menu'>
             <img
-              className="nav-chevron"
+              className='nav-chevron'
               onClick={() => navMenuTransition()}
               src={chevron}
-              alt="navigation icon"
+              alt='navigation icon'
             />
           </div>
         </div>
