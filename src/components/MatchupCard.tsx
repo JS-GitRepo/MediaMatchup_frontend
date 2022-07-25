@@ -120,7 +120,7 @@ const MatchupCard = ({
   };
 
   const loadingRefreshPrompt = () => {
-    setTimeout(() => setTriggerRefreshMsg(true), 6000);
+    setTimeout(() => setTriggerRefreshMsg(true), 10000);
   };
 
   const navMenuTransition = () => {
