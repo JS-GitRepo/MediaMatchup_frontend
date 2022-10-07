@@ -157,6 +157,8 @@ export const getAlbum = (): Promise<MediaItem> => {
       params: paramsObj,
     })
     .then((response) => {
+      console.log(response.data.artists.artist[randResultNum].name);
+
       let artistID = response.data.artists.artist[randResultNum].name;
       let paramsObj2 = {
         api_key: lastFMKey as string,
