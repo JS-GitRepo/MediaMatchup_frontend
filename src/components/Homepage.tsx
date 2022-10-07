@@ -46,7 +46,7 @@ const Homepage = () => {
 
   const { user } = useContext(SocialContext);
   const getMediaArray = [
-    getAlbum,
+    // getAlbum,
     getArtpiece,
     getMovie,
     getTVShow,
@@ -75,10 +75,10 @@ const Homepage = () => {
 
   const generateMatchup = async (): Promise<Matchup> => {
     const startTime = Date.now();
-    let randSelection = Math.floor(Math.random() * 5);
-    let randSelection2 = Math.floor(Math.random() * 5);
+    let randSelection = Math.floor(Math.random() * 4);
+    let randSelection2 = Math.floor(Math.random() * 4);
     while (randSelection2 === randSelection) {
-      randSelection2 = Math.floor(Math.random() * 5);
+      randSelection2 = Math.floor(Math.random() * 4);
     }
 
     let [media1, media2] = await Promise.all([
@@ -296,12 +296,12 @@ const Homepage = () => {
       {user ? (
         <div>{matchupCardJSX}</div>
       ) : (
-        <div className="sign-in-container">
+        <div className='sign-in-container'>
           <p onClick={signInWithGoogle}>Sign In With Google</p>
           <img
-            className="sign-in-bg-img"
+            className='sign-in-bg-img'
             src={bgImgURL}
-            alt="login background image"
+            alt='login background image'
           />
         </div>
       )}
